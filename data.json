@@ -1,51 +1,346 @@
 {
-  "DZ": { "name": "Algeria", "groups": ["Group X"] },
-  "AO": { "name": "Angola", "groups": ["Group X", "Group Y"] },
-  "BJ": { "name": "Benin", "groups": ["Group Y"] },
-  "BW": { "name": "Botswana", "groups": ["Group X"] },
-  "BF": { "name": "Burkina Faso", "groups": ["Group Y"] },
-  "BI": { "name": "Burundi", "groups": ["Group X"] },
-  "CM": { "name": "Cameroon", "groups": ["Group Y"] },
-  "CF": { "name": "Central African Republic", "groups": ["Group X"] },
-  "TD": { "name": "Chad", "groups": ["Group Y"] },
-  "KM": { "name": "Comoros", "groups": ["Group X"] },
-  "CD": { "name": "DR Congo", "groups": ["Group Y"] },
-  "CG": { "name": "Republic of the Congo", "groups": ["Group X"] },
-  "CI": { "name": "Ivory Coast", "groups": ["Group Y"] },
-  "DJ": { "name": "Djibouti", "groups": ["Group X"] },
-  "EG": { "name": "Egypt", "groups": ["Group Y"] },
-  "GQ": { "name": "Equatorial Guinea", "groups": ["Group X"] },
-  "ER": { "name": "Eritrea", "groups": ["Group Y"] },
-  "ET": { "name": "Ethiopia", "groups": ["Group X"] },
-  "GA": { "name": "Gabon", "groups": ["Group Y"] },
-  "GM": { "name": "Gambia", "groups": ["Group X"] },
-  "GH": { "name": "Ghana", "groups": ["Group Y"] },
-  "GN": { "name": "Guinea", "groups": ["Group X"] },
-  "GW": { "name": "Guinea-Bissau", "groups": ["Group Y"] },
-  "KE": { "name": "Kenya", "groups": ["Group X"] },
-  "LS": { "name": "Lesotho", "groups": ["Group Y"] },
-  "LR": { "name": "Liberia", "groups": ["Group X"] },
-  "LY": { "name": "Libya", "groups": ["Group Y"] },
-  "MG": { "name": "Madagascar", "groups": ["Group X"] },
-  "MW": { "name": "Malawi", "groups": ["Group Y"] },
-  "ML": { "name": "Mali", "groups": ["JNIM"] },
-  "MR": { "name": "Mauritania", "groups": ["Group Y"] },
-  "MA": { "name": "Morocco", "groups": ["Group X"] },
-  "MZ": { "name": "Mozambique", "groups": ["Group Y"] },
-  "NA": { "name": "Namibia", "groups": ["Group X"] },
-  "NE": { "name": "Niger", "groups": ["Group Y"] },
-  "NG": { "name": "Nigeria", "groups": ["Group X", "Group Y"] },
-  "RW": { "name": "Rwanda", "groups": ["Group X"] },
-  "SN": { "name": "Senegal", "groups": ["Group Y"] },
-  "SL": { "name": "Sierra Leone", "groups": ["Group X"] },
-  "SO": { "name": "Somalia", "groups": ["Group Y"] },
-  "ZA": { "name": "South Africa", "groups": ["Group X"] },
-  "SS": { "name": "South Sudan", "groups": ["Group Y"] },
-  "SD": { "name": "Sudan", "groups": ["Group X"] },
-  "TZ": { "name": "Tanzania", "groups": ["Group Y"] },
-  "TG": { "name": "Togo", "groups": ["Group X"] },
-  "TN": { "name": "Tunisia", "groups": ["Group Y"] },
-  "UG": { "name": "Uganda", "groups": ["Group X"] },
-  "ZM": { "name": "Zambia", "groups": ["Group Y"] },
-  "ZW": { "name": "Zimbabwe", "groups": ["Group X"] }
+  "DZ": {
+    "name": "Algeria",
+    "groups": [
+      { "name": "ISIS X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "AO": {
+    "name": "Angola",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" },
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "BJ": {
+    "name": "Benin",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "BW": {
+    "name": "Botswana",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "BF": {
+    "name": "Burkina Faso",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "BI": {
+    "name": "Burundi",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "CM": {
+    "name": "Cameroon",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "CF": {
+    "name": "Central African Republic",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "TD": {
+    "name": "Chad",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "KM": {
+    "name": "Comoros",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "CD": {
+    "name": "DR Congo",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "CG": {
+    "name": "Republic of the Congo",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "CI": {
+    "name": "Ivory Coast",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "DJ": {
+    "name": "Djibouti",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "EG": {
+    "name": "Egypt",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "GQ": {
+    "name": "Equatorial Guinea",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "ER": {
+    "name": "Eritrea",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "ET": {
+    "name": "Ethiopia",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "GA": {
+    "name": "Gabon",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "GM": {
+    "name": "Gambia",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "GH": {
+    "name": "Ghana",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "GN": {
+    "name": "Guinea",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "GW": {
+    "name": "Guinea-Bissau",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "KE": {
+    "name": "Kenya",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "LS": {
+    "name": "Lesotho",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "LR": {
+    "name": "Liberia",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "LY": {
+    "name": "Libya",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "MG": {
+    "name": "Madagascar",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "MW": {
+    "name": "Malawi",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "ML": {
+    "name": "Mali",
+    "groups": [
+      { "name": "JNIM", "url": "groups/jnim.html" }
+    ]
+  },
+
+  "MR": {
+    "name": "Mauritania",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "MA": {
+    "name": "Morocco",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "MZ": {
+    "name": "Mozambique",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "NA": {
+    "name": "Namibia",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "NE": {
+    "name": "Niger",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "NG": {
+    "name": "Nigeria",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" },
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "RW": {
+    "name": "Rwanda",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "SN": {
+    "name": "Senegal",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "SL": {
+    "name": "Sierra Leone",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "SO": {
+    "name": "Somalia",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "ZA": {
+    "name": "South Africa",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "SS": {
+    "name": "South Sudan",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "SD": {
+    "name": "Sudan",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "TZ": {
+    "name": "Tanzania",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "TG": {
+    "name": "Togo",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "TN": {
+    "name": "Tunisia",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "UG": {
+    "name": "Uganda",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  },
+
+  "ZM": {
+    "name": "Zambia",
+    "groups": [
+      { "name": "Group Y", "url": "groups/group-y.html" }
+    ]
+  },
+
+  "ZW": {
+    "name": "Zimbabwe",
+    "groups": [
+      { "name": "Group X", "url": "groups/group-x.html" }
+    ]
+  }
 }

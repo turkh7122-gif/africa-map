@@ -564,5 +564,15 @@ function goGroup(url) {
 }
 </script>
 
+  <script>
+fetch("data.json")
+  .then(response => response.json())
+  .then(data => {
+    window.mapData = data;
+    console.log("JSON yüklendi:", data);
+  });
+</script>
+
+
 </body>
 </html>

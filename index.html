@@ -565,12 +565,53 @@ function goGroup(url) {
 </script>
 
   <script>
+let countryData = {};
+const tooltip = document.getElementById("tooltip");
+const sidebar = document.querySelector(".sidebar");
+
+// JSON'u yükle
 fetch("data.json")
-  .then(response => response.json())
+  .then(res => res.json())
   .then(data => {
-    window.mapData = data;
-    console.log("JSON yüklendi:", data);
+    countryData = data;
   });
+
+// SVG path'leri dinle
+document.querySelectorAll("svg path").forEach(path => {
+
+  // Hover
+  path.addEventListener("mousemove", e => {
+    const id = path.id;
+    if (!countryData[id]) return;
+
+    tooltip.style.display = "block";
+    tooltip.style.left = e.pageX + 10 + "px";
+    tooltip.style.top = e.pageY + 10 + "px";
+    tooltip.innerHTML = `
+      <strong>${countryData[id].name}</strong><br>
+      ${countryData[id].groups.join(", ")}
+    `;
+  });
+
+  path.addEventListener("mouseleave", () => {
+    tooltip.style.display = "none";
+  });
+
+  // Click
+  path.addEventListener("click", () => {
+    const id = path.id;
+    if (!countryData[id]) return;
+
+    sidebar.classList.add("active");
+    sidebar.innerHTML = `
+      <h2>${countryData[id].name}</h2>
+      ${countryData[id].groups.map(g => `
+        <div class="group">${g}</div>
+      `).join("")}
+    `;
+  });
+
+});
 </script>
 
 

@@ -13,10 +13,7 @@
       { "name": "FLN (Forces for National Liberation)", "url": "#" }
     ]
   },
-  "BJ": {
-    "name": "Benin",
-    "groups": []
-  },
+  "BJ": { "name": "Benin", "groups": [] },
   "BF": {
     "name": "Burkina Faso",
     "groups": [
@@ -25,10 +22,7 @@
       { "name": "ISGS (Islamic State in the Greater Sahara)", "url": "#" }
     ]
   },
-  "BW": {
-    "name": "Botswana",
-    "groups": []
-  },
+  "BW": { "name": "Botswana", "groups": [] },
   "CF": {
     "name": "Central African Republic",
     "groups": [
@@ -59,14 +53,8 @@
       { "name": "Mai-Mai groups", "url": "#" }
     ]
   },
-  "CG": {
-    "name": "Republic of the Congo",
-    "groups": []
-  },
-  "DJ": {
-    "name": "Djibouti",
-    "groups": []
-  },
+  "CG": { "name": "Republic of the Congo", "groups": [] },
+  "DJ": { "name": "Djibouti", "groups": [] },
   "DZ": {
     "name": "Algeria",
     "groups": [
@@ -81,10 +69,7 @@
       { "name": "Ajnad Misr remnants", "url": "#" }
     ]
   },
-  "ER": {
-    "name": "Eritrea",
-    "groups": []
-  },
+  "ER": { "name": "Eritrea", "groups": [] },
   "ET": {
     "name": "Ethiopia",
     "groups": [
@@ -93,40 +78,19 @@
       { "name": "Al-Shabaab (Ogaden border)", "url": "#" }
     ]
   },
-  "GA": {
-    "name": "Gabon",
-    "groups": []
-  },
-  "GH": {
-    "name": "Ghana",
-    "groups": []
-  },
-  "GN": {
-    "name": "Guinea",
-    "groups": []
-  },
-  "GM": {
-    "name": "Gambia",
-    "groups": []
-  },
-  "GW": {
-    "name": "Guinea-Bissau",
-    "groups": []
-  },
-  "GQ": {
-    "name": "Equatorial Guinea",
-    "groups": []
-  },
+  "GA": { "name": "Gabon", "groups": [] },
+  "GH": { "name": "Ghana", "groups": [] },
+  "GN": { "name": "Guinea", "groups": [] },
+  "GM": { "name": "Gambia", "groups": [] },
+  "GW": { "name": "Guinea-Bissau", "groups": [] },
+  "GQ": { "name": "Equatorial Guinea", "groups": [] },
   "KE": {
     "name": "Kenya",
     "groups": [
       { "name": "Al-Shabaab", "url": "#" }
     ]
   },
-  "LR": {
-    "name": "Liberia",
-    "groups": []
-  },
+  "LR": { "name": "Liberia", "groups": [] },
   "LY": {
     "name": "Libya",
     "groups": [
@@ -136,18 +100,9 @@
       { "name": "Ansar al-Sharia remnants", "url": "#" }
     ]
   },
-  "LS": {
-    "name": "Lesotho",
-    "groups": []
-  },
-  "MA": {
-    "name": "Morocco",
-    "groups": []
-  },
-  "MG": {
-    "name": "Madagascar",
-    "groups": []
-  },
+  "LS": { "name": "Lesotho", "groups": [] },
+  "MA": { "name": "Morocco", "groups": [] },
+  "MG": { "name": "Madagascar", "groups": [] },
   "ML": {
     "name": "Mali",
     "groups": [
@@ -168,14 +123,8 @@
       { "name": "AQIM-linked groups", "url": "#" }
     ]
   },
-  "MW": {
-    "name": "Malawi",
-    "groups": []
-  },
-  "NA": {
-    "name": "Namibia",
-    "groups": []
-  },
+  "MW": { "name": "Malawi", "groups": [] },
+  "NA": { "name": "Namibia", "groups": [] },
   "NE": {
     "name": "Niger",
     "groups": [
@@ -226,10 +175,7 @@
       { "name": "MFDC (Casamance separatists)", "url": "#" }
     ]
   },
-  "SL": {
-    "name": "Sierra Leone",
-    "groups": []
-  },
+  "SL": { "name": "Sierra Leone", "groups": [] },
   "SZ": {
     "name": "Eswatini",
     "groups": [
@@ -244,10 +190,7 @@
       { "name": "Boko Haram border groups", "url": "#" }
     ]
   },
-  "TG": {
-    "name": "Togo",
-    "groups": []
-  },
+  "TG": { "name": "Togo", "groups": [] },
   "TN": {
     "name": "Tunisia",
     "groups": [
@@ -266,18 +209,9 @@
       { "name": "ADF (Allied Democratic Forces)", "url": "#" }
     ]
   },
-  "ZA": {
-    "name": "South Africa",
-    "groups": []
-  },
-  "ZM": {
-    "name": "Zambia",
-    "groups": []
-  },
-  "ZW": {
-    "name": "Zimbabwe",
-    "groups": []
-  },
+  "ZA": { "name": "South Africa", "groups": [] },
+  "ZM": { "name": "Zambia", "groups": [] },
+  "ZW": { "name": "Zimbabwe", "groups": [] },
   "SO": {
     "name": "Somalia",
     "groups": [

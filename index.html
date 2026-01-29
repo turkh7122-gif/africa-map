@@ -583,10 +583,7 @@ function initMap() {
       tooltip.style.display = "none";
     });
 
-    /* CLICK – sidebar + auto zoom */
-    path.addEventListener("click", () => {
-      const id = path.id;
-      if (!countryData[id]) return;
+    
 
       // Sidebar
       sidebar.classList.add("active");

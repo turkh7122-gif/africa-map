@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>MILITANT ATLAS </title>
+  <title>Militant Atlas </title>
   <style>
     /* ===== GENEL TEMA ===== */
     body {
@@ -42,7 +42,6 @@
 
     svg path:hover {
       fill: #4ade80; /* Hoverda yeşil */
-   
     }
 
     /* ===== TOOLTIP ===== */
@@ -90,6 +89,23 @@
 
     .group a:hover {
       text-decoration: underline;
+    }
+
+    /* ===== KAPANMA BUTONU STİLİ ===== */
+    #closeSidebarBtn {
+      background-color: #444; /* Koyu renk arka plan */
+      color: white; /* Beyaz yazı */
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 18px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      width: 100%;
+    }
+
+    #closeSidebarBtn:hover {
+      background-color: #666; /* Hoverda daha açık renk */
     }
   </style>
 </head>
@@ -456,17 +472,28 @@
     </div>
 
     <div id="sidebar">
+      <!-- Kapanma butonunu ve sidebar içeriğini burada ekliyoruz -->
       <button id="closeSidebarBtn">✖</button>
+      <div id="sidebar-content"></div> <!-- Ülke bilgileri buraya dinamik olarak eklenecek -->
     </div>
   </div>
 
   <script>
-    let countryData = {};
-    const tooltip = document.getElementById("tooltip");
-    const sidebar = document.getElementById("sidebar");
-    const svg = document.querySelector("svg");
+    let countryData = {}; // Ülke verilerini depolamak için bir nesne
+    const tooltip = document.getElementById("tooltip"); // Tooltip elementini alıyoruz
+    const sidebar = document.getElementById("sidebar"); // Sidebar elementini alıyoruz
+    const sidebarContent = document.getElementById("sidebar-content"); // Sidebar içeriği
+    const svg = document.querySelector("svg"); // SVG elementini alıyoruz
 
-    /* ===== ZOOM - MOUSE ODAKLI (MOUSE IMLECİNE GÖRE) ===== */
+    // Kapanma butonunu seç
+    const closeSidebarBtn = document.getElementById("closeSidebarBtn");
+
+    // Butona tıklandığında, sidebar'ı gizle
+    closeSidebarBtn.addEventListener("click", () => {
+      sidebar.classList.remove("active");
+    });
+
+    // Harita üzerinde zoom ve pan işlemleri (mouse ve fare ile)
     let scale = 1;
     let prevX = 0, prevY = 0;
 
@@ -492,31 +519,7 @@
       svg.style.transform = `scale(${scale})`;
     });
 
-    /* ===== HARİTANIN DRAGLANMASI VE SINIRLANDIRILMASI ===== */
-    let isDragging = false;
-    let offsetX, offsetY;
-
-    svg.addEventListener('mousedown', e => {
-      isDragging = true;
-      offsetX = e.clientX - svg.getBoundingClientRect().left;
-      offsetY = e.clientY - svg.getBoundingClientRect().top;
-    });
-
-    svg.addEventListener('mousemove', e => {
-      if (!isDragging) return;
-      const dx = e.clientX - offsetX;
-      const dy = e.clientY - offsetY;
-
-      const newX = dx > 0 ? Math.min(dx, window.innerWidth - svg.offsetWidth) : Math.max(dx, 0);
-      const newY = dy > 0 ? Math.min(dy, window.innerHeight - svg.offsetHeight) : Math.max(dy, 0);
-
-      svg.style.transform = `translate(${newX}px, ${newY}px)`;
-    });
-
-    svg.addEventListener('mouseup', () => isDragging = false);
-    svg.addEventListener('mouseleave', () => isDragging = false);
-
-    /* ===== ÜLKE VERİLERİ - JSON YÜKLEME VE HOVER İÇİN DİNAMİK İŞLEMLER ===== */
+    // Harita üzerindeki tıklamalarla countryData kullanımı
     fetch("data.json")
       .then(res => res.json())
       .then(data => {
@@ -527,7 +530,7 @@
     function initMap() {
       document.querySelectorAll("svg path").forEach(path => {
 
-        /* HOVER - ÜLKE ÜZERİNE GELİNCE İSİM VE GRUPLAR */
+        // Ülke üzerine gelindiğinde, tooltip bilgisi gösterme
         path.addEventListener("mousemove", e => {
           const id = path.id;
           if (!countryData[id]) return;
@@ -546,13 +549,13 @@
           tooltip.style.display = "none";
         });
 
-        /* CLICK – ÜLKEYE TIKLANDIĞINDA PANEL AÇMA */
+        // Ülkeye tıklandığında, sidebar'a veri ekleme
         path.addEventListener("click", () => {
           const id = path.id;
           if (!countryData[id]) return;
 
           sidebar.classList.add("active");
-          sidebar.innerHTML = `
+          sidebarContent.innerHTML = `
             <h2>${countryData[id].name}</h2>
             ${countryData[id].groups.map(g => `
               <div class="group">
@@ -564,18 +567,6 @@
       });
     }
   </script>
-
-  <script>
-  // Kapanma butonunu seç
-  const closeSidebarBtn = document.getElementById("closeSidebarBtn");
-
-  // Butona tıklandığında, sidebar'ı gizle
-  closeSidebarBtn.addEventListener("click", () => {
-    sidebar.classList.remove("active");
-  });
-</script>
-</body>
-
 
 </body>
 </html>

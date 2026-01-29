@@ -530,39 +530,7 @@ path:hover {
   <div class="group" onclick="goGroup('grup-y.html')">Grup Y</div>
 </div>
 
-<script>
-const tooltip = document.getElementById("tooltip");
-const sidebar = document.getElementById("sidebar");
-const countryTitle = document.getElementById("countryTitle");
 
-document.querySelectorAll("path").forEach(path => {
-
-  // Hover
-  path.addEventListener("mousemove", e => {
-    const name = path.dataset.name || "Ülke";
-    tooltip.innerHTML = `<strong>${name}</strong><br>Grup X, Grup Y`;
-    tooltip.style.left = e.pageX + 10 + "px";
-    tooltip.style.top = e.pageY + 10 + "px";
-    tooltip.style.display = "block";
-  });
-
-  path.addEventListener("mouseleave", () => {
-    tooltip.style.display = "none";
-  });
-
-  // Click
-  path.addEventListener("click", () => {
-    const name = path.dataset.name || "Ülke";
-    countryTitle.textContent = name;
-    sidebar.classList.add("active");
-  });
-
-});
-
-function goGroup(url) {
-  window.location.href = url;
-}
-</script>
 
   <script>
 let countryData = {};

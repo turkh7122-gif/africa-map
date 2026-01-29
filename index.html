@@ -566,18 +566,23 @@ document.querySelectorAll("svg path").forEach(path => {
   });
 
   // Click
-  path.addEventListener("click", () => {
-    const id = path.id;
-    if (!countryData[id]) return;
+path.addEventListener("click", () => {
+  const id = path.id;
+  const data = countryData[id];
+  if (!data) return;
 
-    sidebar.classList.add("active");
-    sidebar.innerHTML = `
-      <h2>${countryData[id].name}</h2>
-      ${countryData[id].groups.map(g => `
-        <div class="group">${g}</div>
-      `).join("")}
-    `;
+  sidebar.classList.add("active");
+  sidebar.innerHTML = `<h2>${data.name}</h2>`;
+
+  data.groups.forEach(group => {
+    const a = document.createElement("a");
+    a.className = "group";
+    a.textContent = group.name;
+    a.href = group.url;
+    a.target = "_blank"; // yeni sekme istemezsen sil
+    sidebar.appendChild(a);
   });
+});
 
 });
 </script>

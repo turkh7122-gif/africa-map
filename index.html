@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MILITANT Atlas - AFRICA</title>
+  <title>MILITANT Atlas</title>
   <style>
     * { box-sizing: border-box; }
     body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #111; color: #eee; height: 100vh; overflow: hidden; touch-action: none; }
@@ -14,20 +14,21 @@
     svg path:hover, svg path:focus { fill: #4ade80; outline: none; }
     svg path:focus-visible { outline: 3px solid #4ade80; outline-offset: 2px; }
     svg path.active { fill: #ff4444 !important; stroke: #fff; stroke-width: 1.8; }
-    
-    /* Ülke isimleri stili */
+
+    /* Ülke isimleri stili - daha görünür ve zoom uyumlu */
     svg text.country-label {
-      font-size: 11px;
+      font-size: 10px;
       fill: #000;
       text-anchor: middle;
-      dominant-baseline: middle;
+      dominant-baseline: central;
       pointer-events: none;
       font-weight: bold;
       stroke: #fff;
-      stroke-width: 1.2px;
+      stroke-width: 1.8px;
       paint-order: stroke fill;
+      opacity: 0.9;
     }
-    
+
     .tooltip {
       position: absolute;
       background: rgba(0,0,0,0.92);
@@ -101,7 +102,7 @@
     }
     .group a:hover { text-decoration: underline; }
 
-    /* Sidebar açma butonu - daha küçük ve sidebar açıkken gizli */
+    /* Search butonu - küçük, sidebar açıkken gizli */
     #open-sidebar-btn {
       position: fixed;
       top: 15px;
@@ -111,9 +112,9 @@
       color: #111;
       border: none;
       border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      font-size: 14px;
+      width: 44px;
+      height: 44px;
+      font-size: 12px;
       font-weight: bold;
       cursor: pointer;
       box-shadow: 0 3px 10px rgba(0,0,0,0.5);
@@ -123,7 +124,7 @@
       justify-content: center;
     }
     #open-sidebar-btn:hover { background: #3ac96a; transform: scale(1.1); }
-    #sidebar.active ~ #open-sidebar-btn { display: none; } /* sidebar açıkken gizle */
+    #sidebar.active + #open-sidebar-btn { display: none; } /* sibling selector ile gizle */
 
     /* İlk açılış uyarı */
     #welcome-overlay {
@@ -157,9 +158,9 @@
       #sidebar.active { transform: translateY(0); }
       #sidebar-close { top: 12px; right: 12px; z-index: 201; }
       #sidebar-content { padding-bottom: 60px; }
-      #open-sidebar-btn { top: 12px; right: 12px; width: 44px; height: 44px; font-size: 12px; }
+      #open-sidebar-btn { top: 12px; right: 12px; width: 40px; height: 40px; font-size: 11px; }
       #welcome-text { font-size: 22px; padding: 15px; }
-      svg text.country-label { font-size: 9px; }
+      svg text.country-label { font-size: 8px; }
     }
   </style>
 </head>
@@ -167,7 +168,7 @@
 <div id="container">
   <div id="map-area">
     <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-      <path inkscape:connector-curvature="0" id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 ... z" />
+     <path inkscape:connector-curvature="0" id="AO" data-name="Angola" data-id="AO" d="m 495.3,598.6 ... z" />
        <path
      inkscape:connector-curvature="0"
      id="AO"
@@ -521,8 +522,7 @@
      
       <!-- ... kalan path'ler ... -->
     </svg>
-
-      <!-- Ülke isimleri - İngilizce, yaklaşık merkezlerde -->
+      <!-- Ülke isimleri (İngilizce, merkezlerde) -->
       <text class="country-label" x="520" y="650">Angola</text>
       <text class="country-label" x="670" y="560">Burundi</text>
       <text class="country-label" x="340" y="380">Benin</text>
@@ -589,7 +589,7 @@
 <button id="open-sidebar-btn">Search</button>
 
 <div id="welcome-overlay">
-  <div id="welcome-text">Click any country on the map to view details, or use the search button in the top-right corner to find an African country</div>
+  <div id="welcome-text">ATLASI KULLANMAK İÇİN HERHANGİ BİR ÜLKEYE TIKLA</div>
 </div>
 
 <script>
@@ -625,15 +625,16 @@ window.addEventListener("DOMContentLoaded", () => {
 // Sidebar açma butonu
 openBtn.addEventListener("click", () => {
   sidebar.classList.add("active");
+  openBtn.style.display = "none"; // açılınca gizle
 });
 
-// Sidebar kapatıldığında butonu tekrar göster
+// Sidebar kapatma (× butonu veya dışarı tıklama)
 function closeSidebar() {
   sidebar.classList.remove("active");
   if (activePath) activePath.classList.remove("active");
   activePath = null;
   hideTooltip();
-  openBtn.style.display = "block"; // butonu geri getir
+  openBtn.style.display = "block"; // kapanınca göster
 }
 
 document.getElementById("sidebar-close").addEventListener("click", closeSidebar);
@@ -648,7 +649,7 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape" && sidebar.classList.contains("active")) closeSidebar();
 });
 
-// Veri yükleme ve initMap (önceki gibi)
+// Veri yükleme ve initMap
 fetch("data.json")
   .then(res => res.json())
   .then(data => {
@@ -702,6 +703,7 @@ function initMap() {
     if (e.touches.length === 0) hideTooltip();
   }, { passive: true });
 
+  // zoom/pan fonksiyonları
   mapArea.addEventListener("wheel", onWheel, { passive: false });
   mapArea.addEventListener("pointerdown", onPointerDown);
   mapArea.addEventListener("pointermove", onPointerMove);
@@ -713,10 +715,157 @@ function initMap() {
   mapArea.addEventListener("touchend", onTouchEnd, { passive: false });
 }
 
-// Diğer fonksiyonlar (hideTooltip, moveTooltip, showSidebar, onWheel, clampViewBox, getMousePos vs.) önceki tam haliyle aynı kalıyor
-// Eksik olanları önceki mesajlardan kopyalayabilirsin veya istersen tekrar atayım.
+function hideTooltip() {
+  tooltip.classList.remove("visible");
+  setTimeout(() => tooltip.style.display = "none", 180);
+}
 
-console.log("Atlas ready - country names visible + small search button");
+function moveTooltip(e) {
+  const offset = 16;
+  let x = (e.clientX || (e.touches && e.touches[0]?.clientX) || 0) + offset;
+  let y = (e.clientY || (e.touches && e.touches[0]?.clientY) || 0) + offset;
+
+  if (x + tooltip.offsetWidth > window.innerWidth - 10) x -= tooltip.offsetWidth + offset * 2;
+  if (y + tooltip.offsetHeight > window.innerHeight - 10) y -= tooltip.offsetHeight + offset * 2;
+
+  tooltip.style.left = x + "px";
+  tooltip.style.top = y + "px";
+}
+
+function showSidebar(id) {
+  const data = countryData[id.trim()];
+  let html = `<h2 style="margin-top:0;">${data?.name || id}</h2>`;
+  if (data?.groups?.length > 0) {
+    data.groups.forEach(g => {
+      html += `<div class="group"><a href="${g.url || '#'}" target="_blank" rel="noopener noreferrer">${g.name}</a></div>`;
+    });
+  } else {
+    html += "<p>No group information available.</p>";
+  }
+  sidebarContent.innerHTML = html;
+  sidebar.classList.add("active");
+  sidebarContent.scrollTop = 0;
+  openBtn.style.display = "none"; // sidebar açılınca butonu gizle
+}
+
+// Zoom & Pan fonksiyonları (tam hali)
+function updateViewBox() {
+  svg.setAttribute("viewBox", `${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`);
+}
+
+function clampViewBox() {
+  viewBox.x = Math.max(0, Math.min(viewBox.x, originalWidth - viewBox.w));
+  viewBox.y = Math.max(0, Math.min(viewBox.y, originalHeight - viewBox.h));
+}
+
+function onWheel(e) {
+  e.preventDefault();
+  const delta = e.deltaY > 0 ? 1.15 : 1 / 1.15;
+  const mouse = getMousePos(e);
+  const wx = (mouse.x / svg.clientWidth) * viewBox.w + viewBox.x;
+  const wy = (mouse.y / svg.clientHeight) * viewBox.h + viewBox.y;
+  viewBox.w *= delta;
+  viewBox.h *= delta;
+  viewBox.x = wx - (mouse.x / svg.clientWidth) * viewBox.w;
+  viewBox.y = wy - (mouse.y / svg.clientHeight) * viewBox.h;
+  if (viewBox.w < 250) viewBox.w = viewBox.h = 250;
+  if (viewBox.w > 1800) viewBox.w = viewBox.h = 1800;
+  clampViewBox();
+  updateViewBox();
+}
+
+function getMousePos(e) {
+  const rect = svg.getBoundingClientRect();
+  return {
+    x: (e.clientX || (e.touches && e.touches[0]?.clientX) || 0) - rect.left,
+    y: (e.clientY || (e.touches && e.touches[0]?.clientY) || 0) - rect.top
+  };
+}
+
+function onPointerDown(e) {
+  if (e.button !== 0) return;
+  isPanning = true;
+  startPoint = getMousePos(e);
+  mapArea.style.cursor = "grabbing";
+  e.preventDefault();
+}
+
+function onPointerMove(e) {
+  if (!isPanning) return;
+  const current = getMousePos(e);
+  const dx = (current.x - startPoint.x) * (viewBox.w / svg.clientWidth);
+  const dy = (current.y - startPoint.y) * (viewBox.h / svg.clientHeight);
+  viewBox.x -= dx;
+  viewBox.y -= dy;
+  startPoint = current;
+  clampViewBox();
+  updateViewBox();
+}
+
+function onPointerUp() {
+  isPanning = false;
+  mapArea.style.cursor = "grab";
+}
+
+function onTouchStart(e) {
+  if (e.touches.length === 1) {
+    startPoint = getMousePos(e);
+  } else if (e.touches.length === 2) {
+    e.preventDefault();
+    prevDist = getTouchDistance(e.touches);
+    prevMid = getTouchMidpoint(e.touches);
+  }
+}
+
+function onTouchMove(e) {
+  if (e.touches.length === 1 && isPanning) {
+    const current = getMousePos(e);
+    const dx = (current.x - startPoint.x) * (viewBox.w / svg.clientWidth);
+    const dy = (current.y - startPoint.y) * (viewBox.h / svg.clientHeight);
+    viewBox.x -= dx;
+    viewBox.y -= dy;
+    startPoint = current;
+    clampViewBox();
+    updateViewBox();
+  } else if (e.touches.length === 2) {
+    e.preventDefault();
+    const currDist = getTouchDistance(e.touches);
+    const currMid = getTouchMidpoint(e.touches);
+    const scale = currDist / prevDist;
+    const wx = (currMid.x / svg.clientWidth) * viewBox.w + viewBox.x;
+    const wy = (currMid.y / svg.clientHeight) * viewBox.h + viewBox.y;
+    viewBox.w /= scale;
+    viewBox.h /= scale;
+    viewBox.x = wx - (currMid.x / svg.clientWidth) * viewBox.w;
+    viewBox.y = wy - (currMid.y / svg.clientHeight) * viewBox.h;
+    if (viewBox.w < 250) viewBox.w = viewBox.h = 250;
+    if (viewBox.w > 1800) viewBox.w = viewBox.h = 1800;
+    clampViewBox();
+    updateViewBox();
+    prevDist = currDist;
+    prevMid = currMid;
+  }
+}
+
+function onTouchEnd(e) {
+  if (e.touches.length < 2) prevDist = 0;
+  if (e.touches.length === 0) isPanning = false;
+}
+
+function getTouchDistance(touches) {
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx*dx + dy*dy);
+}
+
+function getTouchMidpoint(touches) {
+  return {
+    x: (touches[0].clientX + touches[1].clientX) / 2,
+    y: (touches[0].clientY + touches[1].clientY) / 2
+  };
+}
+
+console.log("Atlas ready - country names visible + fixed search button");
 </script>
 </body>
 </html>

@@ -2,102 +2,56 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Militant Atlas</title>
+<title>Africa Map</title>
 
 <style>
-/* ===== GENEL TEMA ===== */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #e9edf2; /* 👈 eski kullandığımız soft gri */
-  color: #111;
-}
-
-#container {
   display: flex;
-  height: 100vh;
 }
 
-/* ===== MAP ALANI ===== */
-#map-area {
-  flex: 1;
-  position: relative;
-  background: #f1f3f6; /* beyaz değil, açık gri */
-  overflow: hidden;
+#map {
+  width: 70%;
 }
 
-svg {
-  width: 100%;
-  height: 100%;
-  transition: transform 0.25s ease;
+#info {
+  width: 30%;
+  padding: 20px;
+  border-left: 1px solid #ccc;
+  display: none;
 }
 
-svg path {
-  fill: #dfe3e8;
-  stroke: #555;
+path {
+  fill: #f2f2f2;
+  stroke: #333;
   cursor: pointer;
-  pointer-events: all;
-  transition: fill 0.2s ease;
 }
 
-svg path:hover {
-  fill: #4ade80;
+path:hover {
+  fill: #ffc107;
 }
 
-/* ===== TOOLTIP ===== */
-.tooltip {
+#tooltip {
   position: absolute;
-  background: rgba(0,0,0,0.85);
+  background: #000;
   color: #fff;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 6px 10px;
   font-size: 13px;
   pointer-events: none;
   display: none;
-  z-index: 10;
 }
-
-.tooltip strong {
+a {
   display: block;
-  font-size: 16px;   /* 👈 hover’da ülke adı büyük */
-  margin-bottom: 4px;
-}
-
-/* ===== SIDEBAR ===== */
-#sidebar {
-  width: 300px;
-  background: #f5f7fa;
-  color: #111;
-  border-left: 1px solid #cfd6de;
-  padding: 20px;
-  display: none;
-}
-
-#sidebar.active {
-  display: block;
-}
-
-.group {
-  margin-top: 10px;
-}
-
-.group a {
-  color: #2563eb;
-  text-decoration: none;
-}
-
-.group a:hover {
-  text-decoration: underline;
+  margin: 6px 0;
 }
 </style>
 </head>
 
 <body>
 
-<div id="container">
-  <div id="map-area">
-
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div id="map">
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
 ************* Copyright (c) 2015 Pareto Softare, LLC DBA Simplemaps.com *******************		
 ************* Offered under the MIT License http://opensource.org/licenses/MIT ************
@@ -529,77 +483,58 @@ svg path:hover {
      style="fill:#f2f2f2" />
 </svg>
 
-
-    <div class="tooltip" id="tooltip"></div>
-  </div>
-
-  <div id="sidebar"></div>
 </div>
 
+<div id="info">
+  <h2 id="countryTitle"></h2>
+  <div id="groups"></div>
+</div>
+
+<div id="tooltip"></div>
+
 <script>
-let countryData = {};
-const tooltip = document.getElementById("tooltip");
-const sidebar = document.getElementById("sidebar");
-const svg = document.querySelector("svg");
+/* DUMMY GRUPLAR */
+const groupsByCountry = {
+  AO: ["Group X", "Group Y"],
+  EG: ["Group A", "Group B"],
+  ZA: ["Group Z"],
+  NG: ["Group X", "Group Z"]
+};
 
-/* ===== ZOOM (SADECE WHEEL) ===== */
-let scale = 1;
+/* TÜM ÜLKELER */
+document.querySelectorAll("path").forEach(path => {
+  const code = path.id;
+  const name = path.dataset.name || code;
+  const groups = groupsByCountry[code] || ["Group X"];
 
-svg.addEventListener("wheel", e => {
-  e.preventDefault();
-  scale += e.deltaY * -0.001;
-  scale = Math.min(Math.max(1, scale), 4);
-  svg.style.transform = `scale(${scale})`;
-  svg.style.transformOrigin = "center center";
+  // Hover tooltip
+  path.addEventListener("mousemove", e => {
+    tooltip.style.display = "block";
+    tooltip.style.left = e.pageX + 10 + "px";
+    tooltip.style.top = e.pageY + 10 + "px";
+    tooltip.innerHTML = `<b>${name}</b><br>${groups.join(", ")}`;
+  });
+
+  path.addEventListener("mouseleave", () => {
+    tooltip.style.display = "none";
+  });
+
+  // Click → sağ panel
+  path.addEventListener("click", () => {
+    document.getElementById("info").style.display = "block";
+    document.getElementById("countryTitle").innerText = name;
+
+    const groupDiv = document.getElementById("groups");
+    groupDiv.innerHTML = "";
+
+    groups.forEach(g => {
+      const a = document.createElement("a");
+      a.href = `group.html?name=${encodeURIComponent(g)}`;
+      a.innerText = g;
+      groupDiv.appendChild(a);
+    });
+  });
 });
-
-/* ===== JSON YÜKLE ===== */
-fetch("data.json")
-  .then(res => res.json())
-  .then(data => {
-    countryData = data;
-    initMap();
-  });
-
-function initMap() {
-  document.querySelectorAll("svg path").forEach(path => {
-
-    /* HOVER */
-    path.addEventListener("mousemove", e => {
-      const id = path.id;
-      if (!countryData[id]) return;
-
-      tooltip.style.display = "block";
-      tooltip.style.left = e.pageX + 15 + "px";
-      tooltip.style.top = e.pageY + 15 + "px";
-
-      tooltip.innerHTML = `
-        <strong>${countryData[id].name}</strong>
-        ${countryData[id].groups.map(g => g.name).join(", ")}
-      `;
-    });
-
-    path.addEventListener("mouseleave", () => {
-      tooltip.style.display = "none";
-    });
-
-    /* CLICK – SADECE SIDEBAR (ZOOM YOK) */
-    path.addEventListener("click", () => {
-      const id = path.id;
-      if (!countryData[id]) return;
-
-      sidebar.classList.add("active");
-      sidebar.innerHTML = `
-        <h2>${countryData[id].name}</h2>
-        ${countryData[id].groups.map(g => `
-          <div class="group">
-            <a href="${g.url}" target="_blank">${g.name}</a>
-          </div>
-        `).join("")}
-      `;
-    });
-  });
-}
 </script>
 
 </body>

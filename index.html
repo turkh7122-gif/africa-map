@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Militant Atlas</title>
+  <title>MilitantAtlas</title>
   <style>
     /* ===== GENEL TEMA ===== */
     body {
@@ -106,6 +106,20 @@
     .group a:hover {
       text-decoration: underline;
     }
+    #close-sidebar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+#close-sidebar:hover {
+  color: #4ade80;
+}
   </style>
 </head>
 
@@ -471,6 +485,8 @@
 
     <!-- ===== SIDEBAR ===== -->
     <div id="sidebar">
+      <button id="close-sidebar">✖</button>
+
       <!-- 🔴 SIDEBAR CLOSE BUTTON -->
       <button class="close-btn" onclick="this.parentElement.classList.remove('active')">
         ✕
@@ -480,6 +496,12 @@
     </div>
 
   </div>
+  <script>
+  document.getElementById("close-sidebar").addEventListener("click", function () {
+    document.getElementById("sidebar").classList.remove("active");
+  });
+</script>
+
 
 </body>
 </html>

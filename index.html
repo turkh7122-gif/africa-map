@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Militant Atlas </title>
+  <title>MILITANT Atlas - Afrika</title>
   <style>
     * {
       box-sizing: border-box;
@@ -15,7 +15,7 @@
       color: #eee;
       height: 100vh;
       overflow: hidden;
-      touch-action: none; /* genel sayfada istemediğimiz zoom/scroll'u engelle */
+      touch-action: none;
     }
     #container {
       display: flex;
@@ -91,7 +91,7 @@
       display: none;
       transition: transform 0.3s ease;
       transform: translateX(100%);
-      touch-action: auto; /* sidebar içinde scroll izin ver */
+      touch-action: auto;
     }
     #sidebar.active {
       display: block;
@@ -153,23 +153,36 @@
         flex-direction: column;
       }
       #map-area {
-        flex: 1 1 70%; /* harita daha büyük olsun */
+        flex: 1 1 60%;
       }
       #sidebar {
         width: 100%;
         height: auto;
-        max-height: 30%;
-        position: relative;
+        max-height: 60%;
+        min-height: 40%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
         transform: translateY(100%);
         border-left: none;
-        border-top: 1px solid #333;
+        border-top: 1px solid #444;
+        background: #1f1f1f;
+        z-index: 200;
+        overflow-y: auto;
+        touch-action: pan-y pinch-zoom;
+        -webkit-overflow-scrolling: touch;
       }
       #sidebar.active {
         transform: translateY(0);
       }
       #sidebar-close {
-        top: 8px;
-        right: 8px;
+        top: 12px;
+        right: 12px;
+        z-index: 201;
+      }
+      #sidebar-content {
+        padding-bottom: 60px;
       }
     }
   </style>
@@ -542,7 +555,7 @@
   <div id="sidebar">
     <button id="sidebar-close">×</button>
     <div id="search-container">
-      <input type="text" id="search-input" placeholder="Search...">
+      <input type="text" id="search-input" placeholder="Ülke ara...">
     </div>
     <div id="sidebar-content">
       <!-- dinamik içerik buraya gelecek -->
@@ -573,7 +586,7 @@ let startPoint = { x: 0, y: 0 };
 const originalWidth = 1000;
 const originalHeight = 1000;
 
-// Touch için çoklu dokunma takibi
+// Touch için
 let prevDist = 0;
 let prevMid = { x: 0, y: 0 };
 
@@ -601,7 +614,6 @@ function initMap() {
     const id = path.id;
     if (!countryData[id]) return;
 
-    // Mouse + Touch için unified event
     const enterHandler = (e) => {
       if (e.touches && e.touches.length > 1) return;
       tooltip.innerHTML = `
@@ -625,15 +637,14 @@ function initMap() {
       activePath = path;
       showSidebar(id);
     });
+
     path.addEventListener("touchend", (e) => {
-      // touchend sonrası click tetiklenmeyebilir → manuel tetikle
       if (e.touches.length === 0) {
         path.dispatchEvent(new Event("click"));
       }
     }, { passive: true });
   });
 
-  // Harita dışına çıkınca tooltip kaybolsun
   mapArea.addEventListener("mouseleave", hideTooltip);
   mapArea.addEventListener("touchend", (e) => {
     if (e.touches.length === 0) hideTooltip();
@@ -644,16 +655,13 @@ function initMap() {
     setTimeout(() => { tooltip.style.display = "none"; }, 180);
   }
 
-  // Mouse wheel zoom
   mapArea.addEventListener("wheel", onWheel, { passive: false });
 
-  // Pointer (mouse) pan
   mapArea.addEventListener("pointerdown", onPointerDown);
   mapArea.addEventListener("pointermove", onPointerMove);
   mapArea.addEventListener("pointerup", onPointerUp);
   mapArea.addEventListener("pointercancel", onPointerUp);
 
-  // Touch events için pinch zoom + pan
   mapArea.addEventListener("touchstart", onTouchStart, { passive: false });
   mapArea.addEventListener("touchmove", onTouchMove, { passive: false });
   mapArea.addEventListener("touchend", onTouchEnd, { passive: false });
@@ -702,7 +710,6 @@ function getMousePos(e) {
   };
 }
 
-// Mouse pan
 function onPointerDown(e) {
   if (e.button !== 0) return;
   isPanning = true;
@@ -723,13 +730,10 @@ function onPointerUp() {
   mapArea.style.cursor = "grab";
 }
 
-// Touch için
 function onTouchStart(e) {
   if (e.touches.length === 1) {
-    // tek parmak → pan başla
     startPoint = getMousePos(e);
   } else if (e.touches.length === 2) {
-    // iki parmak → pinch başla
     e.preventDefault();
     prevDist = getTouchDistance(e.touches);
     prevMid = getTouchMidpoint(e.touches);
@@ -738,12 +742,10 @@ function onTouchStart(e) {
 
 function onTouchMove(e) {
   if (e.touches.length === 1 && isPanning) {
-    // tek parmak pan
     const current = getMousePos(e);
     applyPan(current.x - startPoint.x, current.y - startPoint.y);
     startPoint = current;
   } else if (e.touches.length === 2) {
-    // pinch zoom
     e.preventDefault();
     const currDist = getTouchDistance(e.touches);
     const currMid = getTouchMidpoint(e.touches);
@@ -770,12 +772,8 @@ function onTouchMove(e) {
 }
 
 function onTouchEnd(e) {
-  if (e.touches.length < 2) {
-    prevDist = 0;
-  }
-  if (e.touches.length === 0) {
-    isPanning = false;
-  }
+  if (e.touches.length < 2) prevDist = 0;
+  if (e.touches.length === 0) isPanning = false;
 }
 
 function getTouchDistance(touches) {
@@ -802,7 +800,6 @@ function applyPan(dxScreen, dyScreen) {
   updateViewBox();
 }
 
-// Tooltip pozisyon
 function moveTooltip(e) {
   const offset = 16;
   const x = (e.clientX || e.touches?.[0]?.clientX || 0) + offset;
@@ -844,6 +841,7 @@ function showSidebar(id) {
 
   sidebarContent.innerHTML = html;
   sidebar.classList.add("active");
+  sidebarContent.scrollTop = 0;  // scroll'u başa al
 }
 
 // ================================================
@@ -860,12 +858,14 @@ function closeSidebar() {
 }
 
 document.getElementById("sidebar-close").addEventListener("click", closeSidebar);
+
 document.addEventListener("click", e => {
   if (!sidebar.classList.contains("active")) return;
   if (sidebar.contains(e.target)) return;
   if (e.target.closest("svg path")) return;
   closeSidebar();
 });
+
 document.addEventListener("keydown", e => {
   if (e.key === "Escape" && sidebar.classList.contains("active")) {
     closeSidebar();

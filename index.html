@@ -575,15 +575,12 @@ path.addEventListener("click", () => {
   sidebar.innerHTML = `<h2>${data.name}</h2>`;
 
   data.groups.forEach(group => {
-    const a = document.createElement("a");
-    a.className = "group";
-    a.textContent = group.name;
-    a.href = group.url;
-    a.target = "_blank"; // yeni sekme istemezsen sil
-    sidebar.appendChild(a);
+    sidebar.innerHTML += `
+      <div class="group">
+        <a href="${group.url}" target="_blank">${group.name}</a>
+      </div>
+    `;
   });
-});
-
 });
 </script>
 

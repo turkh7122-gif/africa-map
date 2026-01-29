@@ -2,14 +2,14 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>DENEME</title>
+  <title>Militant Atlas</title>
   <style>
     /* ===== GENEL TEMA ===== */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #1d1d1d; /* Arka plan koyu gri */
-      color: #fff;
+      background: #1d1d1d; /* Dark tema arka planı */
+      color: #fff; /* Yazılar için beyaz */
       overflow: hidden; /* Scroll bar'ları gizle */
     }
 
@@ -22,7 +22,7 @@
     #map-area {
       flex: 1;
       position: relative;
-      background: #f1f3f6; /* Harita arka planı açık gri */
+      background: #2c2c2c; /* Harita arka planı koyu gri */
       overflow: hidden;
     }
 
@@ -34,8 +34,8 @@
     }
 
     svg path {
-      fill: #dfe3e8;
-      stroke: #555;
+      fill: #4a4a4a; /* Harita üzerindeki ülkeler için koyu gri */
+      stroke: #333; /* Sınırlar için koyu gri */
       pointer-events: all;
       transition: fill 0.3s ease, filter 0.3s ease;
     }
@@ -67,9 +67,9 @@
     /* ===== SIDEBAR ===== */
     #sidebar {
       width: 300px;
-      background: #f5f7fa;
-      color: #111;
-      border-left: 1px solid #cfd6de;
+      background: #2c2c2c; /* Sidebar için koyu arka plan */
+      color: #fff; /* Yazı beyaz */
+      border-left: 1px solid #444; /* Sınır rengi koyu */
       padding: 20px;
       display: none;
     }
@@ -83,7 +83,7 @@
     }
 
     .group a {
-      color: #2563eb;
+      color: #2563eb; /* Linkler mavi */
       text-decoration: none;
     }
 
@@ -99,7 +99,7 @@
     <div id="map-area">
       <!-- SVG harita burada olacak -->
       <svg xmlns="http://www.w3.org/2000/svg" id="svg-map" viewBox="0 0 1000 1000" height="1000px" width="1000px">
-         <path
+        <path
      inkscape:connector-curvature="0"
      id="AO"
      data-name="Angola"
@@ -449,8 +449,6 @@
      data-id="SO"
      d="m 832.6,372.8 -5.7,-5.8 -2.5,-5.7 -4.1,-2.6 -4.2,7.4 -2.5,4.9 4.8,7.7 4.6,6.6 4.8,5 40.3,16.4 10.3,-0.1 -33.5,41.5 -15.9,0.6 -10.7,9.8 -7.8,0.2 -3.3,4.4 -10.5,15.7 0.4,50.4 7.2,11.4 2.7,-3.3 2.9,-7.3 13.4,-16.7 11.4,-10.6 18.1,-13.7 12.1,-11.2 14.1,-18.9 10.1,-15.5 10,-20.2 7,-17.7 5.4,-15.5 2.9,-14.9 2.4,-5 -0.4,-7.3 0.8,-8 -0.5,-3.9 -4.6,0.1 -5.5,4.7 -6.4,1.4 -5.5,2.1 -3.9,0.2 0,0 -6.9,0.5 -4.2,2.6 -6,0.9 -10.5,4.3 -13.2,1.6 -11.3,3.5 -6.1,0 z"
       />
-
-
       </svg>
 
       <div class="tooltip" id="tooltip"></div>

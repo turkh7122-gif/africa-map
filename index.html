@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MILITANT Atlas - AFRICA</title>
+  <title>MILITANT Atlas-AFRICA</title>
   <style>
     * { box-sizing: border-box; }
     body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #111; color: #eee; height: 100vh; overflow: hidden; touch-action: none; }
@@ -12,147 +12,28 @@
     svg { width: 100%; height: 100%; display: block; user-select: none; touch-action: none; }
     svg path { fill: #ffffff; stroke: #333; stroke-width: 0.7; transition: fill 0.3s ease, stroke 0.3s ease; pointer-events: all; }
     svg path:hover, svg path:focus { fill: #4ade80; outline: none; }
+    svg path:focus-visible { outline: 3px solid #4ade80; outline-offset: 2px; }
     svg path.active { fill: #ff4444 !important; stroke: #fff; stroke-width: 1.8; }
-
-    svg text.country-label {
-      font-size: 11px;
-      fill: #000;
-      text-anchor: middle;
-      dominant-baseline: central;
-      pointer-events: none;
-      font-weight: bold;
-      stroke: #fff;
-      stroke-width: 2px;
-      paint-order: stroke fill;
-      opacity: 0.95;
-    }
-
-    .tooltip {
-      position: absolute;
-      background: rgba(0,0,0,0.92);
-      color: white;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      pointer-events: none;
-      display: none;
-      z-index: 1000;
-      max-width: 280px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.7);
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
+    .tooltip { position: absolute; background: rgba(0,0,0,0.88); color: white; padding: 8px 14px; border-radius: 6px; font-size: 13px; pointer-events: none; display: none; z-index: 1000; max-width: 260px; box-shadow: 0 4px 12px rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.18s ease; }
     .tooltip.visible { opacity: 1; }
-    .tooltip strong { display: block; font-size: 16px; margin-bottom: 6px; color: #4ade80; }
-
-    #sidebar {
-      width: 320px;
-      background: #1f1f1f;
-      border-left: 1px solid #333;
-      color: #ddd;
-      padding: 20px;
-      position: relative;
-      overflow-y: auto;
-      display: none;
-      transition: transform 0.3s ease;
-      transform: translateX(100%);
-      touch-action: auto;
-      z-index: 1001;
-    }
+    .tooltip strong { display: block; font-size: 15px; margin-bottom: 5px; }
+    #sidebar { width: 320px; background: #1f1f1f; border-left: 1px solid #333; color: #ddd; padding: 20px; position: relative; overflow-y: auto; display: none; transition: transform 0.3s ease; transform: translateX(100%); touch-action: auto; }
     #sidebar.active { display: block; transform: translateX(0); }
-
-    #sidebar-close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 36px;
-      height: 36px;
-      background: #444;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      font-size: 24px;
-      line-height: 34px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
+    #sidebar-close { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; background: #444; color: white; border: none; border-radius: 50%; font-size: 24px; line-height: 34px; text-align: center; cursor: pointer; transition: all 0.2s; }
     #sidebar-close:hover { background: #666; transform: scale(1.08); }
-
     #search-container { margin-bottom: 18px; }
-    #search-input {
-      width: 100%;
-      padding: 10px 12px;
-      background: #2a2a2a;
-      border: 1px solid #444;
-      color: white;
-      border-radius: 6px;
-      font-size: 15px;
-    }
+    #search-input { width: 100%; padding: 10px 12px; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 6px; font-size: 15px; }
     #search-input::placeholder { color: #888; }
-
-    .group {
-      margin: 14px 0;
-      padding: 10px;
-      background: #2a2a2a;
-      border-radius: 6px;
-    }
-    .group a {
-      color: #4ade80;
-      text-decoration: none;
-      font-size: 14.5px;
-    }
+    .group { margin: 14px 0; padding: 10px; background: #2a2a2a; border-radius: 6px; }
+    .group a { color: #4ade80; text-decoration: none; font-size: 14.5px; }
     .group a:hover { text-decoration: underline; }
-
-    #open-sidebar-btn {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      z-index: 999;
-      background: #4ade80;
-      color: #111;
-      border: none;
-      border-radius: 50%;
-      width: 44px;
-      height: 44px;
-      font-size: 12px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.5);
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #open-sidebar-btn:hover { background: #3ac96a; transform: scale(1.1); }
-
-    #welcome-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      opacity: 1;
-      transition: opacity 1s ease;
-      pointer-events: none;
-    }
-    #welcome-overlay.hidden { opacity: 0; pointer-events: none; }
-    #welcome-text {
-      color: #fff;
-      font-size: 28px;
-      font-weight: bold;
-      text-align: center;
-      padding: 20px;
-      background: rgba(0,0,0,0.6);
-      border-radius: 12px;
-      max-width: 90%;
-    }
-
     @media (max-width: 768px) {
-      #open-sidebar-btn { top: 12px; right: 12px; width: 40px; height: 40px; font-size: 11px; }
-      svg text.country-label { font-size: 8px; stroke-width: 1.5px; }
+      #container { flex-direction: column; }
+      #map-area { flex: 1 1 60%; }
+      #sidebar { width: 100%; height: auto; max-height: 60%; min-height: 40%; position: fixed; bottom: 0; left: 0; right: 0; transform: translateY(100%); border-left: none; border-top: 1px solid #444; background: #1f1f1f; z-index: 200; overflow-y: auto; touch-action: pan-y pinch-zoom; -webkit-overflow-scrolling: touch; }
+      #sidebar.active { transform: translateY(0); }
+      #sidebar-close { top: 12px; right: 12px; z-index: 201; }
+      #sidebar-content { padding-bottom: 60px; }
     }
   </style>
 </head>
@@ -160,7 +41,7 @@
 <div id="container">
   <div id="map-area">
     <svg id="svg-map" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-      <path
+     <path
      inkscape:connector-curvature="0"
      id="AO"
      data-name="Angola"
@@ -512,62 +393,8 @@
      style="fill:#f2f2f2" />
 </svg>
 
-      <g id="country-labels">
-        <text class="country-label" x="520" y="650">Angola</text>
-        <text class="country-label" x="670" y="560">Burundi</text>
-        <text class="country-label" x="340" y="380">Benin</text>
-        <text class="country-label" x="300" y="340">Burkina Faso</text>
-        <text class="country-label" x="600" y="800">Botswana</text>
-        <text class="country-label" x="580" y="420">Central African Rep.</text>
-        <text class="country-label" x="240" y="400">Côte d'Ivoire</text>
-        <text class="country-label" x="480" y="400">Cameroon</text>
-        <text class="country-label" x="620" y="500">Dem. Rep. Congo</text>
-        <text class="country-label" x="520" y="480">Congo</text>
-        <text class="country-label" x="820" y="360">Djibouti</text>
-        <text class="country-label" x="390" y="60">Algeria</text>
-        <text class="country-label" x="630" y="120">Egypt</text>
-        <text class="country-label" x="780" y="320">Eritrea</text>
-        <text class="country-label" x="760" y="360">Ethiopia</text>
-        <text class="country-label" x="460" y="500">Gabon</text>
-        <text class="country-label" x="300" y="380">Ghana</text>
-        <text class="country-label" x="160" y="360">Guinea</text>
-        <text class="country-label" x="100" y="340">Gambia</text>
-        <text class="country-label" x="130" y="350">Guinea-Bissau</text>
-        <text class="country-label" x="440" y="490">Eq. Guinea</text>
-        <text class="country-label" x="810" y="480">Kenya</text>
-        <text class="country-label" x="190" y="420">Liberia</text>
-        <text class="country-label" x="590" y="100">Libya</text>
-        <text class="country-label" x="625" y="940">Lesotho</text>
-        <text class="country-label" x="270" y="50">Morocco</text>
-        <text class="country-label" x="900" y="720">Madagascar</text>
-        <text class="country-label" x="350" y="280">Mali</text>
-        <text class="country-label" x="790" y="680">Mozambique</text>
-        <text class="country-label" x="240" y="200">Mauritania</text>
-        <text class="country-label" x="710" y="730">Malawi</text>
-        <text class="country-label" x="570" y="780">Namibia</text>
-        <text class="country-label" x="460" y="220">Niger</text>
-        <text class="country-label" x="470" y="370">Nigeria</text>
-        <text class="country-label" x="670" y="540">Rwanda</text>
-        <text class="country-label" x="200" y="160">Western Sahara</text>
-        <text class="country-label" x="740" y="320">Sudan</text>
-        <text class="country-label" x="710" y="400">South Sudan</text>
-        <text class="country-label" x="150" y="330">Senegal</text>
-        <text class="country-label" x="170" y="410">Sierra Leone</text>
-        <text class="country-label" x="674" y="875">Eswatini</text>
-        <text class="country-label" x="580" y="270">Chad</text>
-        <text class="country-label" x="310" y="370">Togo</text>
-        <text class="country-label" x="430" y="80">Tunisia</text>
-        <text class="country-label" x="670" y="550">Tanzania</text>
-        <text class="country-label" x="710" y="460">Uganda</text>
-        <text class="country-label" x="520" y="950">South Africa</text>
-        <text class="country-label" x="670" y="650">Zambia</text>
-        <text class="country-label" x="670" y="830">Zimbabwe</text>
-        <text class="country-label" x="830" y="380">Somalia</text>
-      </g>
-    </svg>
     <div class="tooltip" id="tooltip"></div>
   </div>
-
   <div id="sidebar">
     <button id="sidebar-close">×</button>
     <div id="search-container">
@@ -577,12 +404,6 @@
   </div>
 </div>
 
-<button id="open-sidebar-btn">Search</button>
-
-<div id="welcome-overlay">
-  <div id="welcome-text">ATLASI KULLANMAK İÇİN HERHANGİ BİR ÜLKEYE TIKLA</div>
-</div>
-
 <script>
 const tooltip = document.getElementById("tooltip");
 const sidebar = document.getElementById("sidebar");
@@ -590,8 +411,6 @@ const sidebarContent = document.getElementById("sidebar-content");
 const searchInput = document.getElementById("search-input");
 const svg = document.getElementById("svg-map");
 const mapArea = document.getElementById("map-area");
-const openBtn = document.getElementById("open-sidebar-btn");
-const welcomeOverlay = document.getElementById("welcome-overlay");
 
 let countryData = {};
 let activePath = null;
@@ -605,42 +424,6 @@ const originalHeight = 1000;
 let prevDist = 0;
 let prevMid = { x: 0, y: 0 };
 
-// İlk açılışta uyarıyı 5 saniye göster
-window.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => {
-    welcomeOverlay.classList.add("hidden");
-    setTimeout(() => welcomeOverlay.style.display = "none", 1000);
-  }, 5000);
-});
-
-// Search butonu tıklama
-openBtn.addEventListener("click", () => {
-  sidebar.classList.add("active");
-  openBtn.style.display = "none";
-});
-
-// Kapatma fonksiyonu
-function closeSidebar() {
-  sidebar.classList.remove("active");
-  if (activePath) activePath.classList.remove("active");
-  activePath = null;
-  hideTooltip();
-  openBtn.style.display = "flex"; // geri getir
-}
-
-document.getElementById("sidebar-close").addEventListener("click", closeSidebar);
-
-document.addEventListener("click", e => {
-  if (!sidebar.classList.contains("active")) return;
-  if (sidebar.contains(e.target) || e.target.id === "open-sidebar-btn") return;
-  closeSidebar();
-});
-
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && sidebar.classList.contains("active")) closeSidebar();
-});
-
-// Veri yükleme
 fetch("data.json")
   .then(res => res.json())
   .then(data => {
@@ -649,16 +432,20 @@ fetch("data.json")
     initMap();
   })
   .catch(err => {
-    console.error("data.json error:", err);
-    sidebarContent.innerHTML = "<p style='color:#f66;'>Data file could not be loaded. Check if 'data.json' exists in the same folder.</p>";
+    console.error("data.json load error:", err);
+    sidebarContent.innerHTML = "<p style='color:#f66;'>Data file could not be loaded.</p>";
   });
 
-// initMap ve diğer fonksiyonlar aynı kalıyor (önceki mesajdaki gibi)
 function initMap() {
   const paths = document.querySelectorAll("svg path");
+  console.log("Total paths:", paths.length);
+
   paths.forEach(path => {
     const id = path.id.trim();
-    if (!countryData[id]) return;
+    if (!countryData[id]) {
+      console.warn(`No data for: ${id}`);
+      return;
+    }
 
     const showTip = (e) => {
       const data = countryData[id];
@@ -669,6 +456,7 @@ function initMap() {
       tooltip.classList.add("visible");
       tooltip.style.display = "block";
       moveTooltip(e);
+      console.log(`Tooltip for ${id}`);
     };
 
     path.addEventListener("mouseenter", showTip);
@@ -679,6 +467,7 @@ function initMap() {
 
     path.addEventListener("click", (e) => {
       e.stopPropagation();
+      console.log(`Clicked: ${id}`);
       if (activePath) activePath.classList.remove("active");
       path.classList.add("active");
       activePath = path;
@@ -686,7 +475,9 @@ function initMap() {
     });
 
     path.addEventListener("touchend", (e) => {
-      if (e.touches.length === 0) path.dispatchEvent(new Event("click"));
+      if (e.touches.length === 0) {
+        path.dispatchEvent(new Event("click", { bubbles: true }));
+      }
     }, { passive: true });
   });
 
@@ -706,9 +497,203 @@ function initMap() {
   mapArea.addEventListener("touchend", onTouchEnd, { passive: false });
 }
 
-// Diğer fonksiyonlar (hideTooltip, moveTooltip, showSidebar, onWheel, clampViewBox, getMousePos, onPointerDown vb.) önceki kodun aynısıdır. Eksik olanları kopyala veya istersen tekrar atayım.
+function hideTooltip() {
+  tooltip.classList.remove("visible");
+  setTimeout(() => tooltip.style.display = "none", 180);
+}
 
-console.log("Fixed: country names should now be visible + search button hides correctly");
+function moveTooltip(e) {
+  const offset = 16;
+  let x = (e.clientX || (e.touches && e.touches[0]?.clientX) || 0) + offset;
+  let y = (e.clientY || (e.touches && e.touches[0]?.clientY) || 0) + offset;
+
+  if (x + tooltip.offsetWidth > window.innerWidth - 10) x -= tooltip.offsetWidth + offset * 2;
+  if (y + tooltip.offsetHeight > window.innerHeight - 10) y -= tooltip.offsetHeight + offset * 2;
+
+  tooltip.style.left = x + "px";
+  tooltip.style.top = y + "px";
+}
+
+function showSidebar(id) {
+  const data = countryData[id.trim()];
+  if (!data) {
+    sidebarContent.innerHTML = `<p style="color:#f66;">No data for ${id}</p>`;
+  } else {
+    let html = `<h2 style="margin-top:0;">${data.name || id}</h2>`;
+    if (data.groups?.length > 0) {
+      data.groups.forEach(g => {
+        html += `<div class="group"><a href="${g.url || '#'}" target="_blank" rel="noopener noreferrer">${g.name}</a></div>`;
+      });
+    } else {
+      html += "<p>No group information available.</p>";
+    }
+    sidebarContent.innerHTML = html;
+  }
+  sidebar.classList.add("active");
+  sidebarContent.scrollTop = 0;
+}
+
+function closeSidebar() {
+  sidebar.classList.remove("active");
+  if (activePath) activePath.classList.remove("active");
+  activePath = null;
+  hideTooltip();
+}
+
+document.getElementById("sidebar-close").addEventListener("click", closeSidebar);
+
+document.addEventListener("click", e => {
+  if (!sidebar.classList.contains("active")) return;
+  if (sidebar.contains(e.target)) return;
+  if (e.target.closest("svg path")) return;
+  closeSidebar();
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && sidebar.classList.contains("active")) closeSidebar();
+});
+
+searchInput.addEventListener("input", e => {
+  const term = e.target.value.trim().toLowerCase();
+  document.querySelectorAll("svg path").forEach(path => {
+    const name = (countryData[path.id]?.name || path.id || "").toLowerCase();
+    const match = name.includes(term) || term === "";
+    path.style.visibility = match ? "visible" : "hidden";
+    path.style.pointerEvents = match ? "all" : "none";
+  });
+});
+
+// Zoom & Pan fonksiyonları (eksik olanlar eklendi)
+function updateViewBox() {
+  svg.setAttribute("viewBox", `${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`);
+}
+
+function clampViewBox() {
+  const left = 0;
+  const right = originalWidth - viewBox.w;
+  const top = 0;
+  const bottom = originalHeight - viewBox.h;
+  viewBox.x = Math.max(left, Math.min(viewBox.x, right));
+  viewBox.y = Math.max(top, Math.min(viewBox.y, bottom));
+}
+
+function onWheel(e) {
+  e.preventDefault();
+  const delta = e.deltaY > 0 ? 1.15 : 1 / 1.15;
+  const mouse = getMousePos(e);
+  const wx = (mouse.x / svg.clientWidth) * viewBox.w + viewBox.x;
+  const wy = (mouse.y / svg.clientHeight) * viewBox.h + viewBox.y;
+  viewBox.w *= delta;
+  viewBox.h *= delta;
+  viewBox.x = wx - (mouse.x / svg.clientWidth) * viewBox.w;
+  viewBox.y = wy - (mouse.y / svg.clientHeight) * viewBox.h;
+  if (viewBox.w < 250) viewBox.w = viewBox.h = 250;
+  if (viewBox.w > 1800) viewBox.w = viewBox.h = 1800;
+  clampViewBox();
+  updateViewBox();
+}
+
+function getMousePos(e) {
+  const rect = svg.getBoundingClientRect();
+  return {
+    x: (e.clientX || (e.touches && e.touches[0]?.clientX) || 0) - rect.left,
+    y: (e.clientY || (e.touches && e.touches[0]?.clientY) || 0) - rect.top
+  };
+}
+
+function onPointerDown(e) {
+  if (e.button !== 0) return;
+  isPanning = true;
+  startPoint = getMousePos(e);
+  mapArea.style.cursor = "grabbing";
+  e.preventDefault();
+}
+
+function onPointerMove(e) {
+  if (!isPanning) return;
+  const current = getMousePos(e);
+  const dx = (current.x - startPoint.x) * (viewBox.w / svg.clientWidth);
+  const dy = (current.y - startPoint.y) * (viewBox.h / svg.clientHeight);
+  viewBox.x -= dx;
+  viewBox.y -= dy;
+  startPoint = current;
+  clampViewBox();
+  updateViewBox();
+}
+
+function onPointerUp() {
+  isPanning = false;
+  mapArea.style.cursor = "grab";
+}
+
+function onTouchStart(e) {
+  if (e.touches.length === 1) {
+    startPoint = getMousePos(e);
+  } else if (e.touches.length === 2) {
+    e.preventDefault();
+    prevDist = getTouchDistance(e.touches);
+    prevMid = getTouchMidpoint(e.touches);
+  }
+}
+
+function onTouchMove(e) {
+  if (e.touches.length === 1 && isPanning) {
+    const current = getMousePos(e);
+    const dx = (current.x - startPoint.x) * (viewBox.w / svg.clientWidth);
+    const dy = (current.y - startPoint.y) * (viewBox.h / svg.clientHeight);
+    viewBox.x -= dx;
+    viewBox.y -= dy;
+    startPoint = current;
+    clampViewBox();
+    updateViewBox();
+  } else if (e.touches.length === 2) {
+    e.preventDefault();
+    const currDist = getTouchDistance(e.touches);
+    const currMid = getTouchMidpoint(e.touches);
+    const scale = currDist / prevDist;
+    const wx = (currMid.x / svg.clientWidth) * viewBox.w + viewBox.x;
+    const wy = (currMid.y / svg.clientHeight) * viewBox.h + viewBox.y;
+    viewBox.w /= scale;
+    viewBox.h /= scale;
+    viewBox.x = wx - (currMid.x / svg.clientWidth) * viewBox.w;
+    viewBox.y = wy - (currMid.y / svg.clientHeight) * viewBox.h;
+    if (viewBox.w < 250) viewBox.w = viewBox.h = 250;
+    if (viewBox.w > 1800) viewBox.w = viewBox.h = 1800;
+    clampViewBox();
+    updateViewBox();
+    prevDist = currDist;
+    prevMid = currMid;
+  }
+}
+
+function onTouchEnd(e) {
+  if (e.touches.length < 2) prevDist = 0;
+  if (e.touches.length === 0) isPanning = false;
+}
+
+function getTouchDistance(touches) {
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx*dx + dy*dy);
+}
+
+function getTouchMidpoint(touches) {
+  return {
+    x: (touches[0].clientX + touches[1].clientX) / 2,
+    y: (touches[0].clientY + touches[1].clientY) / 2
+  };
+}
+
+function applyPan(dxScreen, dyScreen) {
+  const dx = dxScreen * (viewBox.w / svg.clientWidth);
+  const dy = dyScreen * (viewBox.h / svg.clientHeight);
+  viewBox.x -= dx;
+  viewBox.y -= dy;
+  clampViewBox();
+  updateViewBox();
+}
+
+console.log("Script initialized");
 </script>
 </body>
 </html>

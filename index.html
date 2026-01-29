@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Militant Atlas </title>
+  <title>MILITANT ATLAS </title>
   <style>
     /* ===== GENEL TEMA ===== */
     body {
@@ -72,6 +72,7 @@
       border-left: 1px solid #444; /* Sınır rengi koyu */
       padding: 20px;
       display: none;
+      position: relative;
     }
 
     #sidebar.active {
@@ -454,7 +455,9 @@
       <div class="tooltip" id="tooltip"></div>
     </div>
 
-    <div id="sidebar"></div>
+    <div id="sidebar">
+      <button id="closeSidebarBtn">✖</button>
+    </div>
   </div>
 
   <script>
@@ -561,6 +564,18 @@
       });
     }
   </script>
+
+  <script>
+  // Kapanma butonunu seç
+  const closeSidebarBtn = document.getElementById("closeSidebarBtn");
+
+  // Butona tıklandığında, sidebar'ı gizle
+  closeSidebarBtn.addEventListener("click", () => {
+    sidebar.classList.remove("active");
+  });
+</script>
+</body>
+
 
 </body>
 </html>

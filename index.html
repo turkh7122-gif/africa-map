@@ -1,96 +1,88 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>Afrika Haritası</title>
+<meta charset="UTF-8" />
+<title>Militant Atlas</title>
 
 <style>
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: #e5e7eb;
+  background: #0f1115;
+  color: #fff;
+}
+
+#container {
   display: flex;
   height: 100vh;
 }
 
-/* Sağ bilgi paneli */
-.sidebar {
-  width: 320px;
-  padding: 20px;
-  background: #020617;
-  border-left: 1px solid #1e293b;
-  display: none;
-  flex-shrink: 0;
-}
-
-.sidebar.active {
-  display: block;
-}
-
-.sidebar h2 {
-  margin-top: 0;
-}
-
-.group {
-  margin-top: 8px;
-  padding: 8px;
-  background: #020617;
-  border: 1px solid #1e293b;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.group:hover {
-  background: #1e293b;
-}
-
-/* Harita */
-.map-container {
+#map-area {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: relative;
 }
 
 svg {
-  max-width: 90%;
-  max-height: 90%;
+  width: 100%;
+  height: 100%;
 }
 
-path {
-  fill: #334155;
-  stroke: #0f172a;
-  stroke-width: 1;
+svg path {
+  fill: #2a2d34;
+  stroke: #555;
   cursor: pointer;
-  transition: fill 0.2s ease;
+  pointer-events: all;
+  transition: fill 0.2s;
 }
 
-path:hover {
-  fill: #38bdf8;
+svg path:hover {
+  fill: #3fa9f5;
 }
 
-/* Tooltip */
 .tooltip {
   position: absolute;
-  background: #020617;
-  border: 1px solid #1e293b;
-  padding: 6px 10px;
+  background: #000;
+  padding: 8px 10px;
   border-radius: 6px;
   font-size: 13px;
   pointer-events: none;
   display: none;
+  z-index: 10;
+}
+
+#sidebar {
+  width: 300px;
+  background: #141821;
+  padding: 20px;
+  border-left: 1px solid #222;
+  display: none;
+}
+
+#sidebar.active {
+  display: block;
+}
+
+.group {
+  margin-top: 10px;
+}
+
+.group a {
+  color: #3fa9f5;
+  text-decoration: none;
+}
+
+.group a:hover {
+  text-decoration: underline;
 }
 </style>
 </head>
 
 <body>
 
-<div class="map-container">
-  <div class="tooltip" id="tooltip"></div>
+<div id="container">
+  <div id="map-area">
 
- <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
 ************* Copyright (c) 2015 Pareto Softare, LLC DBA Simplemaps.com *******************		
 ************* Offered under the MIT License http://opensource.org/licenses/MIT ************
@@ -522,68 +514,66 @@ path:hover {
      style="fill:#f2f2f2" />
 </svg>
 
+
+    <div class="tooltip" id="tooltip"></div>
+  </div>
+
+  <div id="sidebar"></div>
 </div>
 
-<div class="sidebar" id="sidebar">
-  <h2 id="countryTitle">Ülke</h2>
-  <div class="group" onclick="goGroup('grup-x.html')">Grup X</div>
-  <div class="group" onclick="goGroup('grup-y.html')">Grup Y</div>
-</div>
-
-
-
-  <script>
+<script>
 let countryData = {};
 const tooltip = document.getElementById("tooltip");
-const sidebar = document.querySelector(".sidebar");
+const sidebar = document.getElementById("sidebar");
 
-// JSON'u yükle
-fetch("data.json?v=2")
+// JSON yükle
+fetch("data.json")
   .then(res => res.json())
   .then(data => {
     countryData = data;
+    initMap();
   });
 
-// SVG path'leri dinle
-document.querySelectorAll("svg path").forEach(path => {
+function initMap() {
+  document.querySelectorAll("svg path").forEach(path => {
 
-  // Hover
-  path.addEventListener("mousemove", e => {
-    const id = path.id;
-    if (!countryData[id]) return;
+    // HOVER
+    path.addEventListener("mousemove", e => {
+      const id = path.id;
+      if (!countryData[id]) return;
 
-    tooltip.style.display = "block";
-    tooltip.style.left = e.pageX + 10 + "px";
-    tooltip.style.top = e.pageY + 10 + "px";
-    tooltip.innerHTML = `
-      <strong>${countryData[id].name}</strong><br>
-      ${countryData[id].groups.join(", ")}
-    `;
+      tooltip.style.display = "block";
+      tooltip.style.left = e.pageX + 15 + "px";
+      tooltip.style.top = e.pageY + 15 + "px";
+
+      tooltip.innerHTML = `
+        <strong>${countryData[id].name}</strong><br>
+        ${countryData[id].groups.map(g => g.name).join(", ")}
+      `;
+    });
+
+    path.addEventListener("mouseleave", () => {
+      tooltip.style.display = "none";
+    });
+
+    // CLICK
+    path.addEventListener("click", () => {
+      const id = path.id;
+      if (!countryData[id]) return;
+
+      sidebar.classList.add("active");
+      sidebar.innerHTML = `
+        <h2>${countryData[id].name}</h2>
+        ${countryData[id].groups.map(g => `
+          <div class="group">
+            <a href="${g.url}" target="_blank">${g.name}</a>
+          </div>
+        `).join("")}
+      `;
+    });
   });
-
-  path.addEventListener("mouseleave", () => {
-    tooltip.style.display = "none";
-  });
-
-  // Click
-path.addEventListener("click", () => {
-  const id = path.id;
-  const data = countryData[id];
-  if (!data) return;
-
-  sidebar.classList.add("active");
-  sidebar.innerHTML = `<h2>${data.name}</h2>`;
-
-  data.groups.forEach(group => {
-    sidebar.innerHTML += `
-      <div class="group">
-        <a href="${group.url}" target="_blank">${group.name}</a>
-      </div>
-    `;
-  });
-});
+}
 </script>
-
 
 </body>
 </html>

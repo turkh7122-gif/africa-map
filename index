@@ -2,81 +2,9 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Militan Atlası (Demo)</title>
-
-<style>
-  body {
-    background: #111;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    text-align: center;
-  }
-
-  svg {
-    width: 80%;
-    height: auto;
-    margin-top: 20px;
-  }
-
-  /* TÜM ÜLKELER */
-  svg path {
-    pointer-events: all;
-    fill: #2c2c2c !important;
-    stroke: #555;
-    stroke-width: 1;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-
-  /* ÜSTÜNE GELİNCE */
-  svg path:hover {
-    fill: #ff9800;
-  }
-
-  /* SEÇİLİ ÜLKE */
-  svg path.active {
-    fill: #e53935 !important;
-  }
-
-  #info {
-    margin-top: 20px;
-    font-size: 20px;
-  }
-</style>
+<title>Test</title>
 </head>
-
 <body>
-
-<h1>🌍 Militan Atlası (Demo)</h1>
-<div id="info">Bir ülkeye tıkla</div>
-
-<!-- ===== AFRİKA SVG ===== -->
-<svg viewBox="0 0 1000 1001" xmlns="http://www.w3.org/2000/svg">
-
-  <!-- ÖRNEK ÜLKE -->
-  <path id="AO" data-name="Angola"
-    d="m 495.3,598.6 -36,-0.2 ..."
-  />
-
-  <path id="DZ" data-name="Algeria"
-    d="M 392.4,5.7 384.6,6.5 ..."
-  />
-
-  <!-- DİĞER TÜM PATH’LER AYNI ŞEKİLDE DEVAM EDECEK -->
-</svg>
-
-<script>
-  const info = document.getElementById("info");
-  const countries = document.querySelectorAll("svg path");
-
-  countries.forEach(country => {
-    country.addEventListener("click", () => {
-      countries.forEach(c => c.classList.remove("active"));
-      country.classList.add("active");
-      info.textContent = country.dataset.name + " seçildi";
-    });
-  });
-</script>
-
+  <h2>Test Sayfası - Çalışıyor</h2>
 </body>
 </html>

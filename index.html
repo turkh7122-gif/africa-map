@@ -1,85 +1,113 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Militant Atlas Deneme</title>
-  <style>
-    /* ===== GENEL TEMA ===== */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #1d1d1d; /* Arka Plan Rengi */
-      color: #fff;
-      overflow: hidden; /* Harita kaymasını engellemek için */
-    }
+    <meta charset="UTF-8">
+    <title>Militant Atlas - </title>
+    <style>
+        /* ===== GENEL TEMA ===== */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #1d1d1d;
+            color: #fff;
+        }
 
-    #container {
-      display: flex;
-      height: 100vh;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
+        #container {
+            display: flex;
+            height: 100vh;
+        }
 
-    /* ===== MAP ALANI ===== */
-    #map-area {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      cursor: grab;
-      user-select: none; /* Harita üzerine sağ tıklamayı engeller */
-    }
+        /* ===== MAP ALANI ===== */
+        #map-area {
+            flex: 1;
+            position: relative;
+            background: #f1f3f6;
+            overflow: hidden;
+        }
 
-    svg {
-      width: 100%;
-      height: 100%;
-      transition: transform 0.25s ease;
-    }
+        svg {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.25s ease;
+        }
 
-    svg path {
-      fill: #f2f2f2;
-      stroke: #555;
-      cursor: pointer;
-      pointer-events: all;
-      transition: fill 0.3s ease;
-    }
+        svg path {
+            fill: #dfe3e8;
+            stroke: #555;
+            cursor: pointer;
+            pointer-events: all;
+            transition: fill 0.2s ease;
+        }
 
-    svg path:hover {
-      fill: #4ade80; /* Hoverda ülke yeşil renk olur */
-    }
+        svg path:hover {
+            fill: #4ade80;
+        }
 
-    /* ===== SIDEBAR ===== */
-    #sidebar {
-      width: 300px;
-      background: #333;
-      color: #fff;
-      padding: 20px;
-      display: none;
-      z-index: 10;
-    }
+        /* ===== TOOLTIP ===== */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            pointer-events: none;
+            display: none;
+            z-index: 10;
+            white-space: nowrap;
+        }
 
-    /* ===== TOOLTIP ===== */
-    .tooltip {
-      position: absolute;
-      background: rgba(0, 0, 0, 0.85);
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 13px;
-      pointer-events: none;
-      display: none;
-      z-index: 10;
-    }
+        .tooltip strong {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
 
-  </style>
+        /* ===== SIDEBAR ===== */
+        #sidebar {
+            width: 300px;
+            background: #f5f7fa;
+            color: #111;
+            border-left: 1px solid #cfd6de;
+            padding: 20px;
+            display: none;
+            overflow-y: auto;
+        }
+
+        #sidebar.active {
+            display: block;
+        }
+
+        .group {
+            margin-top: 10px;
+        }
+
+        .group a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .group a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== DRAG ===== */
+        #map-area {
+            cursor: grab;
+        }
+
+        #map-area:active {
+            cursor: grabbing;
+        }
+    </style>
 </head>
 
 <body>
 
 <div id="container">
-  <div id="map-area">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1001" id="world-map">
-   <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <div id="map-area">
+
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://www.inkscape.org/namespaces/inkscape" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cc="http://creativecommons.org/ns#" xmlns:svg="http://www.w3.org/2000/svg" enable-background="new 0 0 1000 1001" style="stroke-linejoin: round; stroke:#000; fill: none;" version="1.1" viewBox="0 0 1000 1001" width="1000px" height="1001px">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
 ************* Copyright (c) 2015 Pareto Softare, LLC DBA Simplemaps.com *******************		
 ************* Offered under the MIT License http://opensource.org/licenses/MIT ************
@@ -511,111 +539,109 @@
      style="fill:#f2f2f2" />
 </svg>
 
-    </svg>
-    <div class="tooltip" id="tooltip"></div>
-  </div>
 
-  <div id="sidebar"></div>
+        </svg>
+
+        <div class="tooltip" id="tooltip"></div>
+    </div>
+
+    <div id="sidebar"></div>
 </div>
 
 <script>
-  // Harita Drag İşlemi
-  const mapArea = document.getElementById("map-area");
-  let isDragging = false;
-  let startX, startY;
+    let countryData = {};
+    const tooltip = document.getElementById("tooltip");
+    const sidebar = document.getElementById("sidebar");
+    const svg = document.querySelector("svg");
 
-  mapArea.addEventListener("mousedown", (e) => {
-    isDragging = true;
-    startX = e.clientX;
-    startY = e.clientY;
-    mapArea.style.cursor = "grabbing"; // Fareyi sürüklerken değiştirme
-  });
+    /* ===== ZOOM (MOUSE FARE) ===== */
+    let scale = 1;
+    let isMouseDown = false;
+    let startX, startY;
 
-  mapArea.addEventListener("mousemove", (e) => {
-    if (isDragging) {
-      const moveX = e.clientX - startX;
-      const moveY = e.clientY - startY;
-      const currentTransform = mapArea.style.transform || "translate(0, 0)";
-      const currentTranslate = currentTransform.match(/translate\(([-\d]+)px, ([-\d]+)px\)/);
-      
-      const translateX = currentTranslate ? parseInt(currentTranslate[1]) + moveX : moveX;
-      const translateY = currentTranslate ? parseInt(currentTranslate[2]) + moveY : moveY;
+    // Zoom mouse wheel
+    svg.addEventListener("wheel", e => {
+        e.preventDefault();
+        scale += e.deltaY * -0.001;
+        scale = Math.min(Math.max(1, scale), 4);
+        svg.style.transform = `scale(${scale})`;
+        svg.style.transformOrigin = "center center";
+    });
 
-      // Sınırları belirleyelim:
-      const minX = -mapArea.offsetWidth + window.innerWidth;
-      const maxX = 0;
-      const minY = -mapArea.offsetHeight + window.innerHeight;
-      const maxY = 0;
+    // Drag harita
+    svg.addEventListener("mousedown", e => {
+        isMouseDown = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        svg.style.cursor = "grabbing";
+    });
 
-      const boundedX = Math.min(Math.max(translateX, minX), maxX);
-      const boundedY = Math.min(Math.max(translateY, minY), maxY);
+    svg.addEventListener("mousemove", e => {
+        if (isMouseDown) {
+            const xDiff = e.clientX - startX;
+            const yDiff = e.clientY - startY;
+            const currentTransform = svg.getBoundingClientRect();
+            svg.style.transform = `translate(${currentTransform.left + xDiff}px, ${currentTransform.top + yDiff}px)`;
+        }
+    });
 
-      mapArea.style.transform = `translate(${boundedX}px, ${boundedY}px)`;
+    svg.addEventListener("mouseup", () => {
+        isMouseDown = false;
+        svg.style.cursor = "grab";
+    });
 
-      startX = e.clientX;
-      startY = e.clientY;
+    svg.addEventListener("mouseleave", () => {
+        isMouseDown = false;
+        svg.style.cursor = "grab";
+    });
+
+    /* ===== JSON YÜKLE ===== */
+    fetch("data.json")
+        .then(res => res.json())
+        .then(data => {
+            countryData = data;
+            initMap();
+        });
+
+    function initMap() {
+        document.querySelectorAll("svg path").forEach(path => {
+            /* HOVER */
+            path.addEventListener("mousemove", e => {
+                const id = path.id;
+                if (!countryData[id]) return;
+
+                tooltip.style.display = "block";
+                tooltip.style.left = e.pageX + 15 + "px";
+                tooltip.style.top = e.pageY + 15 + "px";
+
+                tooltip.innerHTML = `
+                    <strong>${countryData[id].name}</strong>
+                    <p>${countryData[id].groups.map(g => g.name).join(", ")}</p>
+                `;
+            });
+
+            path.addEventListener("mouseleave", () => {
+                tooltip.style.display = "none";
+            });
+
+            /* TIKLAMA - SIDEBAR AÇMA */
+            path.addEventListener("click", () => {
+                const id = path.id;
+                if (!countryData[id]) return;
+
+                sidebar.classList.add("active");
+                sidebar.innerHTML = `
+                    <h2>${countryData[id].name}</h2>
+                    <p>Örgütler:</p>
+                    ${countryData[id].groups.map(g => `
+                        <div class="group">
+                            <a href="${g.url}" target="_blank">${g.name}</a>
+                        </div>
+                    `).join("")}
+                `;
+            });
+        });
     }
-  });
-
-  mapArea.addEventListener("mouseup", () => {
-    isDragging = false;
-    mapArea.style.cursor = "grab"; // Fareyi bıraktıktan sonra eski haline döner
-  });
-
-  mapArea.addEventListener("mouseleave", () => {
-    isDragging = false;
-    mapArea.style.cursor = "grab"; // Fare haritadan çıkarsa drag durur
-  });
-
-  // Tooltip ve Sidebar
-  let countryData = {};
-  const tooltip = document.getElementById("tooltip");
-  const sidebar = document.getElementById("sidebar");
-  const svg = document.querySelector("svg");
-
-  fetch("data.json")
-    .then(res => res.json())
-    .then(data => {
-      countryData = data;
-      initMap();
-    });
-
-  function initMap() {
-    document.querySelectorAll("svg path").forEach(path => {
-      path.addEventListener("mousemove", e => {
-        const id = path.id;
-        if (!countryData[id]) return;
-
-        tooltip.style.display = "block";
-        tooltip.style.left = e.pageX + 15 + "px";
-        tooltip.style.top = e.pageY + 15 + "px";
-
-        tooltip.innerHTML = `
-          <strong>${countryData[id].name}</strong>
-          ${countryData[id].groups.map(g => g.name).join(", ")}
-        `;
-      });
-
-      path.addEventListener("mouseleave", () => {
-        tooltip.style.display = "none";
-      });
-
-      path.addEventListener("click", () => {
-        const id = path.id;
-        if (!countryData[id]) return;
-
-        sidebar.classList.add("active");
-        sidebar.innerHTML = `
-          <h2>${countryData[id].name}</h2>
-          ${countryData[id].groups.map(g => `
-            <div class="group">
-              <a href="${g.url}" target="_blank">${g.name}</a>
-            </div>
-          `).join("")}
-        `;
-      });
-    });
-  }
 </script>
 
 </body>

@@ -2,8 +2,8 @@
   "AO": {
     "name": "Angola",
     "groups": [
-      { "name": "MPLA fraksiyonları (tarihi)", "url": "#" },
-      { "name": "UNITA kalıntıları", "url": "#" }
+      { "name": "MPLA factions (historical)", "url": "#" },
+      { "name": "UNITA remnants", "url": "#" }
     ]
   },
   "BI": {
@@ -30,67 +30,67 @@
     "groups": []
   },
   "CF": {
-    "name": "Orta Afrika Cumhuriyeti",
+    "name": "Central African Republic",
     "groups": [
       { "name": "Anti-Balaka", "url": "#" },
-      { "name": "Seleka koalisyonu", "url": "#" },
+      { "name": "Seleka coalition", "url": "#" },
       { "name": "UPC (Union for Peace in Central Africa)", "url": "#" }
     ]
   },
   "CI": {
-    "name": "Fildişi Sahili",
+    "name": "Côte d'Ivoire",
     "groups": [
-      { "name": "Bazı kuzey milis kalıntıları", "url": "#" }
+      { "name": "Northern militia remnants", "url": "#" }
     ]
   },
   "CM": {
-    "name": "Kamerun",
+    "name": "Cameroon",
     "groups": [
-      { "name": "Boko Haram (Uzak Kuzey)", "url": "#" },
-      { "name": "Ambazonia ayrılıkçıları (Anglofon kriz)", "url": "#" }
+      { "name": "Boko Haram (Far North)", "url": "#" },
+      { "name": "Ambazonia separatists (Anglophone crisis)", "url": "#" }
     ]
   },
   "CD": {
-    "name": "Kongo Demokratik Cumhuriyeti",
+    "name": "Democratic Republic of the Congo",
     "groups": [
       { "name": "ADF (Allied Democratic Forces)", "url": "#" },
       { "name": "CODECO", "url": "#" },
       { "name": "M23", "url": "#" },
-      { "name": "Mai-Mai grupları", "url": "#" }
+      { "name": "Mai-Mai groups", "url": "#" }
     ]
   },
   "CG": {
-    "name": "Kongo Cumhuriyeti",
+    "name": "Republic of the Congo",
     "groups": []
   },
   "DJ": {
-    "name": "Cibuti",
+    "name": "Djibouti",
     "groups": []
   },
   "DZ": {
-    "name": "Cezayir",
+    "name": "Algeria",
     "groups": [
-      { "name": "AQIM (Al-Qaeda in the Islamic Maghreb) kalıntıları", "url": "#" },
+      { "name": "AQIM (Al-Qaeda in the Islamic Maghreb) remnants", "url": "#" },
       { "name": "Jund al-Khilafah", "url": "#" }
     ]
   },
   "EG": {
-    "name": "Mısır",
+    "name": "Egypt",
     "groups": [
       { "name": "Wilayat Sinai (ISIS-Sinai Province)", "url": "#" },
-      { "name": "Ajnad Misr kalıntıları", "url": "#" }
+      { "name": "Ajnad Misr remnants", "url": "#" }
     ]
   },
   "ER": {
-    "name": "Eritre",
+    "name": "Eritrea",
     "groups": []
   },
   "ET": {
-    "name": "Etiyopya",
+    "name": "Ethiopia",
     "groups": [
       { "name": "OLF-Shane (Oromo Liberation Army)", "url": "#" },
-      { "name": "TPLF (Tigray People's Liberation Front) fraksiyonları", "url": "#" },
-      { "name": "AL-Shabaab (Ogaden sınırı)", "url": "#" }
+      { "name": "TPLF (Tigray People's Liberation Front) factions", "url": "#" },
+      { "name": "Al-Shabaab (Ogaden border)", "url": "#" }
     ]
   },
   "GA": {
@@ -98,23 +98,23 @@
     "groups": []
   },
   "GH": {
-    "name": "Gana",
+    "name": "Ghana",
     "groups": []
   },
   "GN": {
-    "name": "Gine",
+    "name": "Guinea",
     "groups": []
   },
   "GM": {
-    "name": "Gambiya",
+    "name": "Gambia",
     "groups": []
   },
   "GW": {
-    "name": "Gine-Bissau",
+    "name": "Guinea-Bissau",
     "groups": []
   },
   "GQ": {
-    "name": "Ekvator Ginesi",
+    "name": "Equatorial Guinea",
     "groups": []
   },
   "KE": {
@@ -124,16 +124,16 @@
     ]
   },
   "LR": {
-    "name": "Liberya",
+    "name": "Liberia",
     "groups": []
   },
   "LY": {
     "name": "Libya",
     "groups": [
-      { "name": "LNA (Hafter güçleri)", "url": "#" },
-      { "name": "GNA bağlantılı milisler", "url": "#" },
+      { "name": "LNA (Haftar forces)", "url": "#" },
+      { "name": "GNA-affiliated militias", "url": "#" },
       { "name": "ISIS-Libya", "url": "#" },
-      { "name": "Ansar al-Sharia kalıntıları", "url": "#" }
+      { "name": "Ansar al-Sharia remnants", "url": "#" }
     ]
   },
   "LS": {
@@ -141,11 +141,11 @@
     "groups": []
   },
   "MA": {
-    "name": "Fas",
+    "name": "Morocco",
     "groups": []
   },
   "MG": {
-    "name": "Madagaskar",
+    "name": "Madagascar",
     "groups": []
   },
   "ML": {
@@ -157,27 +157,27 @@
     ]
   },
   "MZ": {
-    "name": "Mozambik",
+    "name": "Mozambique",
     "groups": [
       { "name": "Ahlu Sunna Wa-Jama'a (ISIS-Mozambique)", "url": "#" }
     ]
   },
   "MR": {
-    "name": "Moritanya",
+    "name": "Mauritania",
     "groups": [
-      { "name": "AQIM bağlantılı gruplar", "url": "#" }
+      { "name": "AQIM-linked groups", "url": "#" }
     ]
   },
   "MW": {
-    "name": "Malavi",
+    "name": "Malawi",
     "groups": []
   },
   "NA": {
-    "name": "Namibya",
+    "name": "Namibia",
     "groups": []
   },
   "NE": {
-    "name": "Nijer",
+    "name": "Niger",
     "groups": [
       { "name": "ISGS", "url": "#" },
       { "name": "Boko Haram", "url": "#" },
@@ -185,36 +185,36 @@
     ]
   },
   "NG": {
-    "name": "Nijerya",
+    "name": "Nigeria",
     "groups": [
       { "name": "Boko Haram", "url": "#" },
       { "name": "ISWAP (Islamic State West Africa Province)", "url": "#" },
-      { "name": "Fulani çoban milisleri", "url": "#" }
+      { "name": "Fulani herder militias", "url": "#" }
     ]
   },
   "RW": {
-    "name": "Ruanda",
+    "name": "Rwanda",
     "groups": [
       { "name": "FDLR (Democratic Forces for the Liberation of Rwanda)", "url": "#" }
     ]
   },
   "EH": {
-    "name": "Batı Sahra",
+    "name": "Western Sahara",
     "groups": [
-      { "name": "Polisario Front", "url": "https://tr.wikipedia.org/wiki/Polisario_Cephesi" },
-      { "name": "SADR (Sahrawi Arab Democratic Republic) bağlantılı yapılar", "url": "#" }
+      { "name": "Polisario Front", "url": "https://en.wikipedia.org/wiki/Polisario_Front" },
+      { "name": "SADR-affiliated structures", "url": "#" }
     ]
   },
   "SD": {
     "name": "Sudan",
     "groups": [
       { "name": "RSF (Rapid Support Forces)", "url": "#" },
-      { "name": "Sudan Armed Forces fraksiyonları", "url": "#" },
+      { "name": "Sudan Armed Forces factions", "url": "#" },
       { "name": "SLM/A (Sudan Liberation Movement)", "url": "#" }
     ]
   },
   "SS": {
-    "name": "Güney Sudan",
+    "name": "South Sudan",
     "groups": [
       { "name": "SPLM-IO (Sudan People's Liberation Movement-in-Opposition)", "url": "#" },
       { "name": "Nuer White Army", "url": "#" }
@@ -223,7 +223,7 @@
   "SN": {
     "name": "Senegal",
     "groups": [
-      { "name": "MFDC (Casamance ayrılıkçıları)", "url": "#" }
+      { "name": "MFDC (Casamance separatists)", "url": "#" }
     ]
   },
   "SL": {
@@ -231,17 +231,17 @@
     "groups": []
   },
   "SZ": {
-    "name": "Esvatini",
+    "name": "Eswatini",
     "groups": [
-      { "name": "PUDEMO (People's United Democratic Movement) bağlantılı radikaller", "url": "#" },
-      { "name": "Siyasi baskı karşıtı militan gruplar", "url": "#" }
+      { "name": "PUDEMO-linked radicals", "url": "#" },
+      { "name": "Anti-monarchy militant groups", "url": "#" }
     ]
   },
   "TD": {
-    "name": "Çad",
+    "name": "Chad",
     "groups": [
       { "name": "FACT (Front for Change and Concord in Chad)", "url": "#" },
-      { "name": "Boko Haram sınır grupları", "url": "#" }
+      { "name": "Boko Haram border groups", "url": "#" }
     ]
   },
   "TG": {
@@ -249,15 +249,15 @@
     "groups": []
   },
   "TN": {
-    "name": "Tunus",
+    "name": "Tunisia",
     "groups": [
-      { "name": "AQIM ve IS bağlantılı hücreler", "url": "#" }
+      { "name": "AQIM and IS-linked cells", "url": "#" }
     ]
   },
   "TZ": {
-    "name": "Tanzanya",
+    "name": "Tanzania",
     "groups": [
-      { "name": "Al-Shabaab sınır saldırıları", "url": "#" }
+      { "name": "Al-Shabaab border attacks", "url": "#" }
     ]
   },
   "UG": {
@@ -267,19 +267,19 @@
     ]
   },
   "ZA": {
-    "name": "Güney Afrika",
+    "name": "South Africa",
     "groups": []
   },
   "ZM": {
-    "name": "Zambiya",
+    "name": "Zambia",
     "groups": []
   },
   "ZW": {
-    "name": "Zimbabve",
+    "name": "Zimbabwe",
     "groups": []
   },
   "SO": {
-    "name": "Somali",
+    "name": "Somalia",
     "groups": [
       { "name": "Al-Shabaab", "url": "#" },
       { "name": "ISIS-Somalia", "url": "#" }

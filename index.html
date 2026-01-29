@@ -1,62 +1,83 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>Africa Map</title>
+  <meta charset="UTF-8" />
+  <title>Afrika Haritası – SVG Ana Sayfa</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      display: flex;
+      height: 100vh;
+    }
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  display: flex;
-}
+    .sidebar {
+      width: 300px;
+      padding: 20px;
+      background: #020617;
+      border-right: 1px solid #1e293b;
+    }
 
-#map {
-  width: 70%;
-}
+    .sidebar h2 {
+      margin-top: 0;
+      font-size: 20px;
+    }
 
-#info {
-  width: 30%;
-  padding: 20px;
-  border-left: 1px solid #ccc;
-  display: none;
-}
+    .info {
+      margin-top: 10px;
+      padding: 12px;
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      min-height: 80px;
+    }
 
-path {
-  fill: #f2f2f2;
-  stroke: #333;
-  cursor: pointer;
-}
+    .map-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: auto;
+    }
 
-path:hover {
-  fill: #ffc107;
-}
+    svg {
+      max-width: 90%;
+      max-height: 90%;
+    }
 
-#tooltip {
-  position: absolute;
-  background: #000;
-  color: #fff;
-  padding: 6px 10px;
-  font-size: 13px;
-  pointer-events: none;
-  display: none;
-}
-a {
-  display: block;
-  margin: 6px 0;
-}
-</style>
+    path {
+      fill: #334155;
+      stroke: #0f172a;
+      stroke-width: 1;
+      cursor: pointer;
+      transition: fill 0.2s ease, transform 0.15s ease;
+    }
+
+    path:hover {
+      fill: #38bdf8;
+      transform: scale(1.01);
+    }
+
+    path.active {
+      fill: #22c55e;
+    }
+  </style>
 </head>
-
 <body>
 
-<div id="map">
-  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--
-************* Copyright (c) 2015 Pareto Softare, LLC DBA Simplemaps.com *******************		
-************* Offered under the MIT License http://opensource.org/licenses/MIT ************
-************* Attribution is appreciated! http://simplemaps.com ***************************
--->
+  <div class="sidebar">
+    <h2>🌍 Afrika Haritası</h2>
+    <p>Bir ülkenin üzerine tıkla</p>
+
+    <div class="info" id="infoBox">
+      Henüz seçim yok
+    </div>
+  </div>
+
+  <div class="map-container">
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -483,59 +504,28 @@ a {
      style="fill:#f2f2f2" />
 </svg>
 
-</div>
 
-<div id="info">
-  <h2 id="countryTitle"></h2>
-  <div id="groups"></div>
-</div>
+  </div>
 
-<div id="tooltip"></div>
+  <script>
+    const infoBox = document.getElementById("infoBox");
+    const paths = document.querySelectorAll("svg path");
 
-<script>
-/* DUMMY GRUPLAR */
-const groupsByCountry = {
-  AO: ["Group X", "Group Y"],
-  EG: ["Group A", "Group B"],
-  ZA: ["Group Z"],
-  NG: ["Group X", "Group Z"]
-};
+    paths.forEach(path => {
+      path.addEventListener("click", () => {
+        paths.forEach(p => p.classList.remove("active"));
+        path.classList.add("active");
 
-/* TÜM ÜLKELER */
-document.querySelectorAll("path").forEach(path => {
-  const code = path.id;
-  const name = path.dataset.name || code;
-  const groups = groupsByCountry[code] || ["Group X"];
+        const name = path.dataset.name || "Bilinmeyen Ülke";
+        const code = path.dataset.id || path.id;
 
-  // Hover tooltip
-  path.addEventListener("mousemove", e => {
-    tooltip.style.display = "block";
-    tooltip.style.left = e.pageX + 10 + "px";
-    tooltip.style.top = e.pageY + 10 + "px";
-    tooltip.innerHTML = `<b>${name}</b><br>${groups.join(", ")}`;
-  });
-
-  path.addEventListener("mouseleave", () => {
-    tooltip.style.display = "none";
-  });
-
-  // Click → sağ panel
-  path.addEventListener("click", () => {
-    document.getElementById("info").style.display = "block";
-    document.getElementById("countryTitle").innerText = name;
-
-    const groupDiv = document.getElementById("groups");
-    groupDiv.innerHTML = "";
-
-    groups.forEach(g => {
-      const a = document.createElement("a");
-      a.href = `group.html?name=${encodeURIComponent(g)}`;
-      a.innerText = g;
-      groupDiv.appendChild(a);
+        infoBox.innerHTML = `
+          <strong>${name}</strong><br>
+          Ülke Kodu: ${code}
+        `;
+      });
     });
-  });
-});
-</script>
+  </script>
 
 </body>
 </html>

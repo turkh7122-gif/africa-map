@@ -582,6 +582,46 @@ function initMap() {
   });
 }
 </script>
+  <script>
+const svg = document.getElementById("mapSvg");
+const mapGroup = document.getElementById("mapGroup");
+
+let scale = 1;
+let translateX = 0;
+let translateY = 0;
+
+const MIN_SCALE = 1;
+const MAX_SCALE = 6;
+const ZOOM_SPEED = 1.15;
+
+svg.addEventListener("wheel", (e) => {
+  e.preventDefault();
+
+  const direction = e.deltaY < 0 ? 1 : -1;
+  const zoomFactor = direction > 0 ? ZOOM_SPEED : 1 / ZOOM_SPEED;
+
+  const newScale = scale * zoomFactor;
+  if (newScale < MIN_SCALE || newScale > MAX_SCALE) return;
+
+  // Mouse pozisyonunu SVG koordinatına çevir
+  const pt = svg.createSVGPoint();
+  pt.x = e.clientX;
+  pt.y = e.clientY;
+  const cursor = pt.matrixTransform(svg.getScreenCTM().inverse());
+
+  // Translate hesapla (asıl sihir burada)
+  translateX -= cursor.x * (zoomFactor - 1);
+  translateY -= cursor.y * (zoomFactor - 1);
+
+  scale = newScale;
+
+  mapGroup.setAttribute(
+    "transform",
+    `translate(${translateX}, ${translateY}) scale(${scale})`
+  );
+});
+</script>
+
 
 </body>
 </html>

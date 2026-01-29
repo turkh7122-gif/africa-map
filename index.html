@@ -517,23 +517,7 @@
   
 </svg>
 
-    const label = document.getElementById("countryLabel");
-const paths = document.querySelectorAll("#africa-map path");
-
-paths.forEach(path => {
-  path.addEventListener("click", () => {
-    const name = path.dataset.name;
-    if (!name) return;
-
-    const bbox = path.getBBox();
-
-    label.setAttribute("x", bbox.x + bbox.width / 2);
-    label.setAttribute("y", bbox.y + bbox.height / 2);
-    label.textContent = name.toUpperCase();
-    label.style.display = "block";
-  });
-});
-    
+   
 
 
 

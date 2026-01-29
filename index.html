@@ -5,146 +5,65 @@
 <title>Militant Atlas</title>
 
 <style>
-  body {
-    margin: 0;
-    background: #0f0f0f;
-    color: #fff;
-    font-family: Arial, sans-serif;
-  }
+body {
+  margin: 0;
+  background: #0f0f0f;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
 
-  h1 {
-    text-align: center;
-    margin: 20px 0;
-  }
+h1 {
+  text-align: center;
+  margin: 20px 0;
+}
 
-  #map-wrapper {
-    max-width: 900px;
-    margin: 0 auto;
-    position: relative;
-  }
+#map-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
 
-  svg {
-    width: 100%;
-    height: auto;
-  }
+svg {
+  width: 100%;
+  height: auto;
+}
 
-  .country {
-    fill: #555;
-    stroke: #222;
-    stroke-width: 1;
-    cursor: pointer;
-    transition: fill 0.2s ease;
-    pointer-events: all;
-  }
+.country {
+  fill: #e0e0e0;
+  stroke: #333;
+  cursor: pointer;
+  transition: fill .2s;
+}
 
-  .country:hover {
-    fill: #2ecc71;
-  }
-
-  #info-box {
-    position: absolute;
-    background: #111;
-    color: #fff;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 14px;
-    width: 220px;
-    display: none;
-    z-index: 10;
-  }
-
-  #info-box h4 {
-    margin: 0 0 6px;
-    color: #2ecc71;
-  }
-
-  #info-box ul {
-    margin: 0;
-    padding-left: 18px;
-  }
-
-  #info-box a {
-    color: #1abc9c;
-    text-decoration: none;
-  }
-
-  #info-box a:hover {
-    text-decoration: underline;
-  }
+.country:hover {
+  fill: #2ecc71;
+}
 </style>
 </head>
 
 <body>
 
-<h1>Militant Atlas (Demo)</h1>
+<h1>Militant Atlas</h1>
 
 <div id="map-wrapper">
 
-<!-- BASİT DEMO AFRİKA SVG -->
-<svg viewBox="0 0 500 500">
+<!-- BASİT TEST AFRİKA SVG (ÇALIŞTIĞINI GÖRMEK İÇİN) -->
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
 
-  <!-- Mali -->
-  <path id="ML" class="country"
-    d="M150 150 L220 140 L230 200 L180 220 Z" />
+  <!-- SADECE DEMO ŞEKİL -->
+  <path class="country" id="NG"
+    d="M150 150 L250 150 L260 230 L200 260 L140 230 Z" />
 
-  <!-- Nigeria -->
-  <path id="NG" class="country"
-    d="M220 230 L280 230 L290 280 L230 290 Z" />
-
-  <!-- Somalia -->
-  <path id="SO" class="country"
-    d="M330 230 L390 260 L370 320 L320 300 Z" />
+  <path class="country" id="SO"
+    d="M280 200 L330 180 L350 210 L320 260 Z" />
 
 </svg>
 
-<div id="info-box"></div>
 </div>
 
 <script>
-const data = {
-  "ML": {
-    name: "Mali",
-    groups: [
-      { name: "JNIM", link: "jnim.html" },
-      { name: "ISGS", link: "isgs.html" }
-    ]
-  },
-  "NG": {
-    name: "Nigeria",
-    groups: [
-      { name: "Boko Haram", link: "boko-haram.html" },
-      { name: "ISWAP", link: "iswap.html" }
-    ]
-  },
-  "SO": {
-    name: "Somalia",
-    groups: [
-      { name: "Al-Shabaab", link: "al-shabaab.html" }
-    ]
-  }
-};
-
-const infoBox = document.getElementById("info-box");
-
-document.querySelectorAll(".country").forEach(country => {
-  country.addEventListener("mousemove", e => {
-    const id = country.id;
-    if (!data[id]) return;
-
-    let html = `<h4>${data[id].name}</h4><ul>`;
-    data[id].groups.forEach(g => {
-      html += `<li><a href="${g.link}">${g.name}</a></li>`;
-    });
-    html += `</ul>`;
-
-    infoBox.innerHTML = html;
-    infoBox.style.left = e.offsetX + 20 + "px";
-    infoBox.style.top = e.offsetY + 20 + "px";
-    infoBox.style.display = "block";
-  });
-
-  country.addEventListener("mouseleave", () => {
-    infoBox.style.display = "none";
+document.querySelectorAll('.country').forEach(c => {
+  c.addEventListener('click', () => {
+    alert('Ülke ID: ' + c.id);
   });
 });
 </script>

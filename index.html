@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>MILITANT ATLAS -</title>
+<title>MILITANT A2TLAS -</title>
 
 <style>
 /* ===== GENEL TEMA ===== */
@@ -525,14 +525,7 @@ const sidebar = document.getElementById("sidebar");
 const svg = document.querySelector("svg");
 
 /* ===== ZOOM (SADECE WHEEL) ===== */
-let scale = 1;
 
-svg.addEventListener("wheel", e => {
-  e.preventDefault();
-  scale += e.deltaY * -0.001;
-  scale = Math.min(Math.max(1, scale), 4);
-  svg.style.transform = `scale(${scale})`;
-  svg.style.transformOrigin = "center center";
 });
 
 /* ===== JSON YÜKLE ===== */

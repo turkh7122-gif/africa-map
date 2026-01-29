@@ -570,7 +570,7 @@ const tooltip = document.getElementById("tooltip");
 const sidebar = document.querySelector(".sidebar");
 
 // JSON'u yükle
-fetch("data.json")
+fetch("data.json?v=2")
   .then(res => res.json())
   .then(data => {
     countryData = data;

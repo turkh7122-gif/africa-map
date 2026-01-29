@@ -1,52 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Militant Atlas – Africa</title>
+<title>Militan Atlası (Demo)</title>
 
 <style>
-body {
-  margin: 0;
-  background: #0d0d0d;
-  font-family: Arial, sans-serif;
-}
+  body {
+    background: #111;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
 
-#africa-wrapper {
-  max-width: 900px;
-  margin: 40px auto;
-  position: relative;
-}
+  svg {
+    width: 80%;
+    height: auto;
+    margin-top: 20px;
+  }
 
-.country {
-  fill: #444;
-  stroke: #999;
-  cursor: pointer;
-  transition: fill .2s;
-}
+  /* TÜM ÜLKELER */
+  path {
+    fill: #2c2c2c;
+    stroke: #555;
+    stroke-width: 1;
+    cursor: pointer;
+    transition: 0.2s;
+  }
 
-.country:hover {
-  fill: #2ecc71;
-}
+  /* ÜSTÜNE GELİNCE */
+  path:hover {
+    fill: #ff9800;
+  }
 
-#info-box {
-  position: absolute;
-  background: #111;
-  color: #fff;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  display: none;
-  width: 220px;
-  z-index: 10;
-}
+  /* SEÇİLİ ÜLKE */
+  .active {
+    fill: #e53935 !important;
+  }
+
+  #info {
+    margin-top: 20px;
+    font-size: 20px;
+  }
 </style>
 </head>
 
 <body>
 
-<div id="africa-wrapper">
+<h1>🌍 Militan Atlası (Demo)</h1>
+<div id="info">Bir ülkeye tıkla</div>
 
-<!-- 👇 AFRICA SVG BURAYA GELECEK -->
+<!-- ===== BURAYA SENİN SVG GELECEK ===== -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -473,50 +476,27 @@ body {
      style="fill:#f2f2f2" />
 </svg>
 
-
-<div id="info-box"></div>
-</div>
+<!-- ==================================== -->
 
 <script>
-const data = {
-  NG: {
-    name: "Nigeria",
-    groups: [
-      { name: "Boko Haram", link: "#" },
-      { name: "ISWAP", link: "#" }
-    ]
-  },
-  SO: {
-    name: "Somalia",
-    groups: [
-      { name: "Al-Shabaab", link: "#" }
-    ]
-  }
-};
+  const countries = document.querySelectorAll("svg path");
+  const info = document.getElementById("info");
 
-const box = document.getElementById("info-box");
+  countries.forEach(country => {
+    country.addEventListener("click", () => {
 
-document.querySelectorAll(".country").forEach(c => {
-  c.addEventListener("mousemove", e => {
-    const id = c.id;
-    if (!data[id]) return;
+      // önce hepsinden active kaldır
+      countries.forEach(c => c.classList.remove("active"));
 
-    let html = `<strong>${data[id].name}</strong><ul>`;
-    data[id].groups.forEach(g => {
-      html += `<li>${g.name}</li>`;
+      // tıklanana active ekle
+      country.classList.add("active");
+
+      // ülke adı
+      const name = country.dataset.name || country.id;
+
+      info.innerText = "Seçilen Ülke: " + name;
     });
-    html += "</ul>";
-
-    box.innerHTML = html;
-    box.style.left = e.pageX + "px";
-    box.style.top = e.pageY + "px";
-    box.style.display = "block";
   });
-
-  c.addEventListener("mouseleave", () => {
-    box.style.display = "none";
-  });
-});
 </script>
 
 </body>

@@ -2,15 +2,15 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>MilitantAtlas</title>
+  <title>Militant Atlas </title>
   <style>
     /* ===== GENEL TEMA ===== */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #1d1d1d;
-      color: #fff;
-      overflow: hidden;
+      background: #1d1d1d; /* Dark tema arka planı */
+      color: #fff; /* Yazılar için beyaz */
+      overflow: hidden; /* Scroll bar'ları gizle */
     }
 
     #container {
@@ -22,7 +22,7 @@
     #map-area {
       flex: 1;
       position: relative;
-      background: #2c2c2c;
+      background: #2c2c2c; /* Harita arka planı koyu gri */
       overflow: hidden;
     }
 
@@ -34,14 +34,15 @@
     }
 
     svg path {
-      fill: #f0f0f0;
-      stroke: #333;
+      fill: #f0f0f0 ; /* Harita üzerindeki ülkeler için koyu gri */
+      stroke: #333; /* Sınırlar için koyu gri */
       pointer-events: all;
       transition: fill 0.3s ease, filter 0.3s ease;
     }
 
     svg path:hover {
-      fill: #4ade80;
+      fill: #4ade80; /* Hoverda yeşil */
+   
     }
 
     /* ===== TOOLTIP ===== */
@@ -66,32 +67,15 @@
     /* ===== SIDEBAR ===== */
     #sidebar {
       width: 300px;
-      background: #2c2c2c;
-      color: #fff;
-      border-left: 1px solid #444;
+      background: #2c2c2c; /* Sidebar için koyu arka plan */
+      color: #fff; /* Yazı beyaz */
+      border-left: 1px solid #444; /* Sınır rengi koyu */
       padding: 20px;
       display: none;
-      position: relative;
     }
 
     #sidebar.active {
       display: block;
-    }
-
-    /* 🔴 SIDEBAR CLOSE BUTTON */
-    #sidebar .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: transparent;
-      border: none;
-      color: #fff;
-      font-size: 22px;
-      cursor: pointer;
-    }
-
-    #sidebar .close-btn:hover {
-      color: #ff5c5c;
     }
 
     .group {
@@ -99,27 +83,13 @@
     }
 
     .group a {
-      color: #f0f0f0;
+      color: #f0f0f0; /* Linkler mavi */
       text-decoration: none;
     }
 
     .group a:hover {
       text-decoration: underline;
     }
-    #close-sidebar {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  color: #fff;
-  font-size: 22px;
-  cursor: pointer;
-}
-
-#close-sidebar:hover {
-  color: #4ade80;
-}
   </style>
 </head>
 
@@ -127,10 +97,9 @@
 
   <div id="container">
     <div id="map-area">
-      <!-- SVG HARİTA (DOKUNULMADI) -->
-      <svg xmlns="http://www.w3.org/2000/svg" id="svg-map" viewBox="0 0 1000 1000">
-        <svg xmlns="http://www.w3.org/2000/svg" id="svg-map" viewBox="0 0 1000 1000">
-     <path
+      <!-- SVG harita burada olacak -->
+      <svg xmlns="http://www.w3.org/2000/svg" id="svg-map" viewBox="0 0 1000 1000" height="1000px" width="1000px">
+        <path
      inkscape:connector-curvature="0"
      id="AO"
      data-name="Angola"
@@ -481,27 +450,117 @@
      d="m 832.6,372.8 -5.7,-5.8 -2.5,-5.7 -4.1,-2.6 -4.2,7.4 -2.5,4.9 4.8,7.7 4.6,6.6 4.8,5 40.3,16.4 10.3,-0.1 -33.5,41.5 -15.9,0.6 -10.7,9.8 -7.8,0.2 -3.3,4.4 -10.5,15.7 0.4,50.4 7.2,11.4 2.7,-3.3 2.9,-7.3 13.4,-16.7 11.4,-10.6 18.1,-13.7 12.1,-11.2 14.1,-18.9 10.1,-15.5 10,-20.2 7,-17.7 5.4,-15.5 2.9,-14.9 2.4,-5 -0.4,-7.3 0.8,-8 -0.5,-3.9 -4.6,0.1 -5.5,4.7 -6.4,1.4 -5.5,2.1 -3.9,0.2 0,0 -6.9,0.5 -4.2,2.6 -6,0.9 -10.5,4.3 -13.2,1.6 -11.3,3.5 -6.1,0 z"
       />
       </svg>
+
+      <div class="tooltip" id="tooltip"></div>
     </div>
 
-    <!-- ===== SIDEBAR ===== -->
-    <div id="sidebar">
-      <button id="close-sidebar">✖</button>
-
-      <!-- 🔴 SIDEBAR CLOSE BUTTON -->
-      <button class="close-btn" onclick="this.parentElement.classList.remove('active')">
-        ✕
-      </button>
-
-      <!-- MEVCUT SIDEBAR İÇERİĞİN AYNEN KALIR -->
-    </div>
-
+    <div id="sidebar"></div>
   </div>
-  <script>
-  document.getElementById("close-sidebar").addEventListener("click", function () {
-    document.getElementById("sidebar").classList.remove("active");
-  });
-</script>
 
+  <script>
+    let countryData = {};
+    const tooltip = document.getElementById("tooltip");
+    const sidebar = document.getElementById("sidebar");
+    const svg = document.querySelector("svg");
+
+    /* ===== ZOOM - MOUSE ODAKLI (MOUSE IMLECİNE GÖRE) ===== */
+    let scale = 1;
+    let prevX = 0, prevY = 0;
+
+    svg.addEventListener('mousemove', e => {
+      prevX = e.clientX;
+      prevY = e.clientY;
+    });
+
+    svg.addEventListener("wheel", e => {
+      e.preventDefault();
+      const scaleChange = e.deltaY * -0.001;
+      scale += scaleChange;
+      scale = Math.min(Math.max(1, scale), 4); // Minimum 1x, maksimum 4x zoom
+      const rect = svg.getBoundingClientRect();
+      const offsetX = prevX - rect.left;
+      const offsetY = prevY - rect.top;
+
+      // Mouse odaklı zoom
+      const zoomX = (offsetX / rect.width) * (scale - 1);
+      const zoomY = (offsetY / rect.height) * (scale - 1);
+      svg.style.transformOrigin = `${(offsetX / rect.width) * 100}% ${(offsetY / rect.height) * 100}%`;
+
+      svg.style.transform = `scale(${scale})`;
+    });
+
+    /* ===== HARİTANIN DRAGLANMASI VE SINIRLANDIRILMASI ===== */
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    svg.addEventListener('mousedown', e => {
+      isDragging = true;
+      offsetX = e.clientX - svg.getBoundingClientRect().left;
+      offsetY = e.clientY - svg.getBoundingClientRect().top;
+    });
+
+    svg.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      const dx = e.clientX - offsetX;
+      const dy = e.clientY - offsetY;
+
+      const newX = dx > 0 ? Math.min(dx, window.innerWidth - svg.offsetWidth) : Math.max(dx, 0);
+      const newY = dy > 0 ? Math.min(dy, window.innerHeight - svg.offsetHeight) : Math.max(dy, 0);
+
+      svg.style.transform = `translate(${newX}px, ${newY}px)`;
+    });
+
+    svg.addEventListener('mouseup', () => isDragging = false);
+    svg.addEventListener('mouseleave', () => isDragging = false);
+
+    /* ===== ÜLKE VERİLERİ - JSON YÜKLEME VE HOVER İÇİN DİNAMİK İŞLEMLER ===== */
+    fetch("data.json")
+      .then(res => res.json())
+      .then(data => {
+        countryData = data;
+        initMap();
+      });
+
+    function initMap() {
+      document.querySelectorAll("svg path").forEach(path => {
+
+        /* HOVER - ÜLKE ÜZERİNE GELİNCE İSİM VE GRUPLAR */
+        path.addEventListener("mousemove", e => {
+          const id = path.id;
+          if (!countryData[id]) return;
+
+          tooltip.style.display = "block";
+          tooltip.style.left = e.pageX + 15 + "px";
+          tooltip.style.top = e.pageY + 15 + "px";
+
+          tooltip.innerHTML = `
+            <strong>${countryData[id].name}</strong>
+            ${countryData[id].groups.map(g => g.name).join("<br>")}
+          `;
+        });
+
+        path.addEventListener("mouseleave", () => {
+          tooltip.style.display = "none";
+        });
+
+        /* CLICK – ÜLKEYE TIKLANDIĞINDA PANEL AÇMA */
+        path.addEventListener("click", () => {
+          const id = path.id;
+          if (!countryData[id]) return;
+
+          sidebar.classList.add("active");
+          sidebar.innerHTML = `
+            <h2>${countryData[id].name}</h2>
+            ${countryData[id].groups.map(g => `
+              <div class="group">
+                <a href="${g.url}" target="_blank">${g.name}</a>
+              </div>
+            `).join("")}
+          `;
+        });
+      });
+    }
+  </script>
 
 </body>
 </html>

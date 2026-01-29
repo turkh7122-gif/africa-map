@@ -2,7 +2,8 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Militant Atlas </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Militant Atlas MOBİL </title>
   <style>
     /* ===== GENEL TEMA ===== */
     body {
@@ -89,6 +90,22 @@
 
     .group a:hover {
       text-decoration: underline;
+      /* 🔽 RESPONSIVE CSS BURAYA 🔽 */
+  @media (max-width: 768px) {
+    #container {
+      flex-direction: column;
+    }
+
+    #sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+    }
+
+    svg {
+      height: 70vh;
+    }
+  
     }
   </style>
 </head>

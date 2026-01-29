@@ -1,165 +1,105 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>MILITANT A2TLAS -</title>
+  <meta charset="UTF-8">
+  <title>DENEME</title>
+  <style>
+    /* ===== GENEL TEMA ===== */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #1d1d1d; /* Arka plan koyu gri */
+      color: #fff;
+      overflow: hidden; /* Scroll bar'ları gizle */
+    }
 
-<style>
-/* ===== GENEL TEMA ===== */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #1d1d1d; /* 👈 eski kullandığımız soft gri */
-  color: #fff;
-  overflow: hidden;
-}
+    #container {
+      display: flex;
+      height: 100vh;
+    }
 
-#container {
-  display: flex;
-  height: 100vh;
-}
+    /* ===== MAP ALANI ===== */
+    #map-area {
+      flex: 1;
+      position: relative;
+      background: #f1f3f6; /* Harita arka planı açık gri */
+      overflow: hidden;
+    }
 
-/* ===== MAP ALANI ===== */
-#map-area {
-  flex: 1;
-  position: relative;
-  background: #f1f3f6; /* beyaz değil, açık gri */
-  overflow: hidden;
-}
+    svg {
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+    }
 
-svg {
-  width: 100%;
-  height: 100%;
-  transition: transform 0.25s ease;
-}
+    svg path {
+      fill: #dfe3e8;
+      stroke: #555;
+      pointer-events: all;
+      transition: fill 0.3s ease, filter 0.3s ease;
+    }
 
-svg path {
-  fill: #dfe3e8;
-  stroke: #555;
-  cursor: pointer;
-  pointer-events: all;
-  transition: fill 0.2s ease;
-}
+    svg path:hover {
+      fill: #4ade80; /* Hoverda yeşil */
+      filter: drop-shadow(0 0 10px rgba(74, 222, 128, 0.8)); /* Glow efekti */
+    }
 
-svg path:hover {
-  fill: #4ade80;
-}
+    /* ===== TOOLTIP ===== */
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      pointer-events: none;
+      display: none;
+      z-index: 10;
+    }
 
-/* ===== TOOLTIP ===== */
-.tooltip {
-  position: absolute;
-  background: rgba(0,0,0,0.85);
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 13px;
-  pointer-events: none;
-  display: none;
-  z-index: 10;
-}
+    .tooltip strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
 
-.tooltip strong {
-  display: block;
-  font-size: 16px;   /* 👈 hover’da ülke adı büyük */
-  margin-bottom: 4px;
-}
+    /* ===== SIDEBAR ===== */
+    #sidebar {
+      width: 300px;
+      background: #f5f7fa;
+      color: #111;
+      border-left: 1px solid #cfd6de;
+      padding: 20px;
+      display: none;
+    }
 
-/* ===== SIDEBAR ===== */
-#sidebar {
-  width: 300px;
-  background: #f5f7fa;
-  color: #111;
-  border-left: 1px solid #cfd6de;
-  padding: 20px;
-  display: none;
-}
+    #sidebar.active {
+      display: block;
+    }
 
-#sidebar.active {
-  display: block;
-}
+    .group {
+      margin-top: 10px;
+    }
 
-.group {
-  margin-top: 10px;
-}
+    .group a {
+      color: #2563eb;
+      text-decoration: none;
+    }
 
-.group a {
-  color: #2563eb;
-  text-decoration: none;
-}
-
-.group a:hover {
-  text-decoration: underline;
-}
-</style>
+    .group a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 
 <body>
 
-<div id="container">
-  <div id="map-area">
-
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--
-************* Copyright (c) 2015 Pareto Softare, LLC DBA Simplemaps.com *******************		
-************* Offered under the MIT License http://opensource.org/licenses/MIT ************
-************* Attribution is appreciated! http://simplemaps.com ***************************
--->
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   enable_background="new 0 0 1000 1001"
-   height="1001px"
-   pretty_print="False"
-   style="stroke-linejoin: round; stroke:#555;"
-   version="1.1"
-   viewBox="0 0 1000 1001"
-   width="1000px"
-   id="svg2"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="africa.svg">
- 
-  <defs
-     id="defs4">
-    <style
-       type="text/css"
-       id="style6">path { fill-rule: evenodd; }</style>
-  </defs>
-  <metadata
-     id="metadata8">
-    <views
-       id="views10">
-      <view
-         h="1001"
-         padding="0"
-         w="1000"
-         id="view12">
-        <proj
-           flip="auto"
-           id="robinson"
-           lon0="100.0" />
-        <bbox
-           h="1210.83"
-           w="1011.29"
-           x="-258.56"
-           y="-626.99"
-           id="bbox15" />
-      </view>
-    </views>
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <path
+  <div id="container">
+    <div id="map-area">
+      <!-- SVG harita burada olacak -->
+      <svg xmlns="http://www.w3.org/2000/svg" id="svg-map" viewBox="0 0 1000 1000" height="1000px" width="1000px">
+         <path
      inkscape:connector-curvature="0"
      id="AO"
      data-name="Angola"
@@ -509,113 +449,120 @@ svg path:hover {
      data-id="SO"
      d="m 832.6,372.8 -5.7,-5.8 -2.5,-5.7 -4.1,-2.6 -4.2,7.4 -2.5,4.9 4.8,7.7 4.6,6.6 4.8,5 40.3,16.4 10.3,-0.1 -33.5,41.5 -15.9,0.6 -10.7,9.8 -7.8,0.2 -3.3,4.4 -10.5,15.7 0.4,50.4 7.2,11.4 2.7,-3.3 2.9,-7.3 13.4,-16.7 11.4,-10.6 18.1,-13.7 12.1,-11.2 14.1,-18.9 10.1,-15.5 10,-20.2 7,-17.7 5.4,-15.5 2.9,-14.9 2.4,-5 -0.4,-7.3 0.8,-8 -0.5,-3.9 -4.6,0.1 -5.5,4.7 -6.4,1.4 -5.5,2.1 -3.9,0.2 0,0 -6.9,0.5 -4.2,2.6 -6,0.9 -10.5,4.3 -13.2,1.6 -11.3,3.5 -6.1,0 z"
       />
-</svg>
 
 
-    <div class="tooltip" id="tooltip"></div>
+      </svg>
+
+      <div class="tooltip" id="tooltip"></div>
+    </div>
+
+    <div id="sidebar"></div>
   </div>
 
-  <div id="sidebar"></div>
-</div>
-
-<script>
-let countryData = {};
-const tooltip = document.getElementById("tooltip");
-const sidebar = document.getElementById("sidebar");
-const svg = document.querySelector("svg");
-
-/* ===== ZOOM (SADECE WHEEL) ===== */
-
-});
-
-/* ===== JSON YÜKLE ===== */
-fetch("data.json")
-  .then(res => res.json())
-  .then(data => {
-    countryData = data;
-    initMap();
-  });
-
-function initMap() {
-  document.querySelectorAll("svg path").forEach(path => {
-
-    /* HOVER */
-    path.addEventListener("mousemove", e => {
-      const id = path.id;
-      if (!countryData[id]) return;
-
-      tooltip.style.display = "block";
-      tooltip.style.left = e.pageX + 15 + "px";
-      tooltip.style.top = e.pageY + 15 + "px";
-
-      tooltip.innerHTML = `
-        <strong>${countryData[id].name}</strong>
-        ${countryData[id].groups.map(g => g.name).join(", ")}
-      `;
-    });
-
-    path.addEventListener("mouseleave", () => {
-      tooltip.style.display = "none";
-    });
-
-    /* CLICK – SADECE SIDEBAR (ZOOM YOK) */
-    path.addEventListener("click", () => {
-      const id = path.id;
-      if (!countryData[id]) return;
-
-      sidebar.classList.add("active");
-      sidebar.innerHTML = `
-        <h2>${countryData[id].name}</h2>
-        ${countryData[id].groups.map(g => `
-          <div class="group">
-            <a href="${g.url}" target="_blank">${g.name}</a>
-          </div>
-        `).join("")}
-      `;
-    });
-  });
-}
-</script>
   <script>
-const svg = document.getElementById("mapSvg");
-const mapGroup = document.getElementById("mapGroup");
+    let countryData = {};
+    const tooltip = document.getElementById("tooltip");
+    const sidebar = document.getElementById("sidebar");
+    const svg = document.querySelector("svg");
 
-let scale = 1;
-let translateX = 0;
-let translateY = 0;
+    /* ===== ZOOM - MOUSE ODAKLI (MOUSE IMLECİNE GÖRE) ===== */
+    let scale = 1;
+    let prevX = 0, prevY = 0;
 
-const MIN_SCALE = 1;
-const MAX_SCALE = 6;
-const ZOOM_SPEED = 1.15;
+    svg.addEventListener('mousemove', e => {
+      prevX = e.clientX;
+      prevY = e.clientY;
+    });
 
-svg.addEventListener("wheel", (e) => {
-  e.preventDefault();
+    svg.addEventListener("wheel", e => {
+      e.preventDefault();
+      const scaleChange = e.deltaY * -0.001;
+      scale += scaleChange;
+      scale = Math.min(Math.max(1, scale), 4); // Minimum 1x, maksimum 4x zoom
+      const rect = svg.getBoundingClientRect();
+      const offsetX = prevX - rect.left;
+      const offsetY = prevY - rect.top;
 
-  const direction = e.deltaY < 0 ? 1 : -1;
-  const zoomFactor = direction > 0 ? ZOOM_SPEED : 1 / ZOOM_SPEED;
+      // Mouse odaklı zoom
+      const zoomX = (offsetX / rect.width) * (scale - 1);
+      const zoomY = (offsetY / rect.height) * (scale - 1);
+      svg.style.transformOrigin = `${(offsetX / rect.width) * 100}% ${(offsetY / rect.height) * 100}%`;
 
-  const newScale = scale * zoomFactor;
-  if (newScale < MIN_SCALE || newScale > MAX_SCALE) return;
+      svg.style.transform = `scale(${scale})`;
+    });
 
-  // Mouse pozisyonunu SVG koordinatına çevir
-  const pt = svg.createSVGPoint();
-  pt.x = e.clientX;
-  pt.y = e.clientY;
-  const cursor = pt.matrixTransform(svg.getScreenCTM().inverse());
+    /* ===== HARİTANIN DRAGLANMASI VE SINIRLANDIRILMASI ===== */
+    let isDragging = false;
+    let offsetX, offsetY;
 
-  // Translate hesapla (asıl sihir burada)
-  translateX -= cursor.x * (zoomFactor - 1);
-  translateY -= cursor.y * (zoomFactor - 1);
+    svg.addEventListener('mousedown', e => {
+      isDragging = true;
+      offsetX = e.clientX - svg.getBoundingClientRect().left;
+      offsetY = e.clientY - svg.getBoundingClientRect().top;
+    });
 
-  scale = newScale;
+    svg.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      const dx = e.clientX - offsetX;
+      const dy = e.clientY - offsetY;
 
-  mapGroup.setAttribute(
-    "transform",
-    `translate(${translateX}, ${translateY}) scale(${scale})`
-  );
-});
-</script>
+      const newX = dx > 0 ? Math.min(dx, window.innerWidth - svg.offsetWidth) : Math.max(dx, 0);
+      const newY = dy > 0 ? Math.min(dy, window.innerHeight - svg.offsetHeight) : Math.max(dy, 0);
 
+      svg.style.transform = `translate(${newX}px, ${newY}px)`;
+    });
+
+    svg.addEventListener('mouseup', () => isDragging = false);
+    svg.addEventListener('mouseleave', () => isDragging = false);
+
+    /* ===== ÜLKE VERİLERİ - JSON YÜKLEME VE HOVER İÇİN DİNAMİK İŞLEMLER ===== */
+    fetch("data.json")
+      .then(res => res.json())
+      .then(data => {
+        countryData = data;
+        initMap();
+      });
+
+    function initMap() {
+      document.querySelectorAll("svg path").forEach(path => {
+
+        /* HOVER - ÜLKE ÜZERİNE GELİNCE İSİM VE GRUPLAR */
+        path.addEventListener("mousemove", e => {
+          const id = path.id;
+          if (!countryData[id]) return;
+
+          tooltip.style.display = "block";
+          tooltip.style.left = e.pageX + 15 + "px";
+          tooltip.style.top = e.pageY + 15 + "px";
+
+          tooltip.innerHTML = `
+            <strong>${countryData[id].name}</strong>
+            ${countryData[id].groups.map(g => g.name).join("<br>")}
+          `;
+        });
+
+        path.addEventListener("mouseleave", () => {
+          tooltip.style.display = "none";
+        });
+
+        /* CLICK – ÜLKEYE TIKLANDIĞINDA PANEL AÇMA */
+        path.addEventListener("click", () => {
+          const id = path.id;
+          if (!countryData[id]) return;
+
+          sidebar.classList.add("active");
+          sidebar.innerHTML = `
+            <h2>${countryData[id].name}</h2>
+            ${countryData[id].groups.map(g => `
+              <div class="group">
+                <a href="${g.url}" target="_blank">${g.name}</a>
+              </div>
+            `).join("")}
+          `;
+        });
+      });
+    }
+  </script>
 
 </body>
 </html>

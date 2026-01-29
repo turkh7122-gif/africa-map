@@ -19,13 +19,18 @@
   }
 
   /* TÜM ÜLKELER */
-  path {
-    fill: #2c2c2c;
-    stroke: #555;
-    stroke-width: 1;
-    cursor: pointer;
-    transition: 0.2s;
-  }
+path {
+  pointer-events: all;
+}
+
+
+path {
+  fill: #2c2c2c !important;
+  stroke: #555;
+  stroke-width: 1;
+  cursor: pointer;
+  transition: 0.2s;
+}
 
   /* ÜSTÜNE GELİNCE */
   path:hover {
@@ -61,7 +66,7 @@
    enable_background="new 0 0 1000 1001"
    height="1001px"
    pretty_print="False"
-   style="stroke-linejoin: round; stroke:#000; fill: none;"
+   style="stroke-linejoin: round; stroke:#000;"
    version="1.1"
    viewBox="0 0 1000 1001"
    width="1000px"
